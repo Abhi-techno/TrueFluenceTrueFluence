@@ -1,1 +1,6 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/find-best-fit-influencers.ts';
+import '@/ai/flows/generate-ai-campaign-brief.ts';
+import '@/ai/flows/get-influencer-growth-insights.ts';

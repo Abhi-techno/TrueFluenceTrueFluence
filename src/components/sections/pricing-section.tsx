@@ -1,0 +1,75 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckCircle } from "lucide-react";
+
+const tiers = [
+    {
+        name: "Basic",
+        price: "Free",
+        description: "Get started and become visible to brands.",
+        features: ["Verified Profile", "Basic Visibility", "Accept Collabs"],
+        isPopular: false,
+    },
+    {
+        name: "Pro",
+        price: "$19",
+        priceSuffix: "/ month",
+        description: "Unlock analytics and get a trust badge.",
+        features: ["Everything in Basic", "Pro Verified Badge", "AI Growth Insights", "Enhanced Visibility"],
+        isPopular: true,
+    },
+    {
+        name: "Premium",
+        price: "$49",
+        priceSuffix: "/ month",
+        description: "For serious creators who want priority access.",
+        features: ["Everything in Pro", "Premium Placement", "Priority Support", "Smart Pricing AI"],
+        isPopular: false,
+    }
+];
+
+export function PricingSection() {
+    return (
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+                    <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">Influencer Pricing</div>
+                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Invest in Your Growth</h2>
+                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                        Choose a plan that fits your journey. Free for all brands, forever.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
+                    {tiers.map((tier) => (
+                        <Card key={tier.name} className={`flex flex-col ${tier.isPopular ? 'border-primary border-2 shadow-xl -translate-y-4' : ''}`}>
+                            <CardHeader className="p-6">
+                                {tier.isPopular && <div className="text-xs font-semibold text-primary mb-2">MOST POPULAR</div>}
+                                <CardTitle>{tier.name}</CardTitle>
+                                <CardDescription>{tier.description}</CardDescription>
+                                <div className="flex items-baseline gap-1 pt-4">
+                                    <span className="text-4xl font-bold">{tier.price}</span>
+                                    {tier.priceSuffix && <span className="text-muted-foreground">{tier.priceSuffix}</span>}
+                                </div>
+                            </CardHeader>
+                            <CardContent className="flex-grow p-6">
+                                <ul className="space-y-3">
+                                    {tier.features.map((feature, index) => (
+                                        <li key={index} className="flex items-center gap-2">
+                                            <CheckCircle className="h-5 w-5 text-primary" />
+                                            <span className="text-sm text-muted-foreground">{feature}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                            <CardFooter className="p-6">
+                                <Button className="w-full" variant={tier.isPopular ? 'default' : 'outline'}>
+                                    Get Started
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
