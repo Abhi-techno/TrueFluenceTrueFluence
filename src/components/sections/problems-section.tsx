@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bot, IndianRupee, EyeOff, ShieldAlert, Users } from "lucide-react";
 
 const problems = [
@@ -31,19 +31,23 @@ const problems = [
 
 export function ProblemsSection() {
   return (
-    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-          <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm">The Problem</div>
+        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
+          <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary-foreground">The Problem</div>
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Influencer Marketing is Broken</h2>
           <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Despite its potential, the industry is plagued by issues of trust, transparency, and accessibility.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {problems.map((problem) => (
-            <Card key={problem.title} className="flex flex-col items-start p-6 text-left hover:shadow-lg transition-shadow">
-              <div className="mb-4">{problem.icon}</div>
+          {problems.map((problem, index) => (
+            <Card 
+              key={problem.title} 
+              className="flex flex-col items-start p-6 text-left bg-background/50 hover:bg-background transition-colors duration-300 animate-fade-in-up group"
+              style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}
+              >
+              <div className="mb-4 p-3 bg-secondary rounded-full group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
               <p className="text-muted-foreground">{problem.description}</p>
             </Card>

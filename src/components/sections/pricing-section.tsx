@@ -32,7 +32,7 @@ export function PricingSection() {
     return (
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Influencer Pricing</div>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Invest in Your Growth</h2>
                     <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -40,8 +40,12 @@ export function PricingSection() {
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
-                    {tiers.map((tier) => (
-                        <Card key={tier.name} className={`flex flex-col rounded-xl transition-all duration-300 ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 -translate-y-4 bg-secondary/50' : 'bg-secondary/30 border-secondary hover:border-primary'}`}>
+                    {tiers.map((tier, index) => (
+                        <Card 
+                            key={tier.name} 
+                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 -translate-y-4 bg-secondary/50' : 'bg-secondary/30 border-secondary hover:border-primary hover:-translate-y-2'}`}
+                            style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}
+                        >
                             <CardHeader className="p-6">
                                 {tier.isPopular && <div className="text-xs font-semibold text-primary mb-2 tracking-widest uppercase">Most Popular</div>}
                                 <CardTitle className="text-2xl">{tier.name}</CardTitle>
