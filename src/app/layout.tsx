@@ -6,7 +6,7 @@ import Footer from "@/components/layout/footer";
 
 export const metadata: Metadata = {
   title: "TrueFluence – Authentic Influence. Real Impact.",
-  description: "A next-generation AI-powered Influencer Collaboration &amp; Management Platform connecting authentic influencers with brands in a transparent, secure, and efficient ecosystem.",
+  description: "A next-generation AI-powered Influencer Collaboration & Management Platform connecting authentic influencers with brands in a transparent, secure, and efficient ecosystem.",
   keywords: ["influencer marketing", "AI", "brand collaboration", "social media", "marketing platform"]
 };
 
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="dark scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

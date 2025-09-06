@@ -26,6 +26,7 @@ const Header = () => {
     { href: "#solution", label: "Solution" },
     { href: "#pricing", label: "Pricing" },
     { href: "#security", label: "Trust" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -52,7 +53,7 @@ const Header = () => {
         </nav>
         <div className="hidden md:flex items-center gap-2">
           <Button variant="ghost">Log In</Button>
-          <Button style={{ backgroundColor: "hsl(var(--accent))", color: "hsl(var(--accent-foreground))" }} className="hover:bg-accent/90">Sign Up</Button>
+          <Button>Sign Up</Button>
         </div>
         <div className="md:hidden">
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -76,7 +77,7 @@ const Header = () => {
             ))}
             <div className="flex flex-col gap-2 pt-4 border-t">
                 <Button variant="ghost" className="w-full">Log In</Button>
-                <Button style={{ backgroundColor: "hsl(var(--accent))", color: "hsl(var(--accent-foreground))" }} className="w-full hover:bg-accent/90">Sign Up</Button>
+                <Button className="w-full">Sign Up</Button>
             </div>
           </nav>
         </div>
