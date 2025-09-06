@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Bot, CircleDollarSign, EyeOff, ShieldAlert, Users } from "lucide-react";
+import { Bot, IndianRupee, EyeOff, ShieldAlert, Users } from "lucide-react";
 
 const problems = [
   {
@@ -8,7 +8,7 @@ const problems = [
     description: "Up to 40% of influencers use bots or fake followers, leading to wasted marketing spend.",
   },
   {
-    icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+    icon: <IndianRupee className="h-8 w-8 text-primary" />,
     title: "High Costs & Fees",
     description: "Traditional agencies and platforms charge hefty fees, making influencer marketing inaccessible for many.",
   },

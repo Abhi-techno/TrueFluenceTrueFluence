@@ -12,7 +12,7 @@ const tiers = [
     },
     {
         name: "Pro",
-        price: "$19",
+        price: "₹1499",
         priceSuffix: "/ month",
         description: "Unlock analytics and get a trust badge.",
         features: ["Everything in Basic", "Pro Verified Badge", "AI Growth Insights", "Enhanced Visibility"],
@@ -20,7 +20,7 @@ const tiers = [
     },
     {
         name: "Premium",
-        price: "$49",
+        price: "₹3999",
         priceSuffix: "/ month",
         description: "For serious creators who want priority access.",
         features: ["Everything in Pro", "Premium Placement", "Priority Support", "Smart Pricing AI"],
