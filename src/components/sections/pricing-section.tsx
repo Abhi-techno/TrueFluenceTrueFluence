@@ -30,7 +30,7 @@ const tiers = [
 
 export function PricingSection() {
     return (
-        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Influencer Pricing</div>
@@ -43,8 +43,8 @@ export function PricingSection() {
                     {tiers.map((tier, index) => (
                         <Card 
                             key={tier.name} 
-                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 -translate-y-4 bg-secondary/50' : 'bg-secondary/30 border-secondary hover:border-primary hover:-translate-y-2'}`}
-                            style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}
+                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 -translate-y-4 bg-secondary/30' : 'bg-secondary/20 border-secondary hover:border-primary/50 hover:-translate-y-2'}`}
+                            style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
                         >
                             <CardHeader className="p-6">
                                 {tier.isPopular && <div className="text-xs font-semibold text-primary mb-2 tracking-widest uppercase">Most Popular</div>}
@@ -55,7 +55,7 @@ export function PricingSection() {
                                 </div>
                                 <CardDescription className="pt-1 h-12">{tier.description}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex-grow p-6">
+                            <CardContent className="flex-grow p-6 border-t border-b border-white/10">
                                 <ul className="space-y-3">
                                     {tier.features.map((feature, index) => (
                                         <li key={index} className="flex items-center gap-3">

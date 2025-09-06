@@ -28,7 +28,7 @@ const testimonials = [
 
 export function TestimonialsSection() {
     return (
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Loved by Brands & Influencers</h2>
@@ -44,9 +44,9 @@ export function TestimonialsSection() {
                         {testimonials.map((item, index) => (
                             <CarouselItem key={index} className="md:basis-1/2">
                                 <div className="p-1">
-                                    <Card className="h-full">
+                                    <Card className="h-full bg-secondary/20 border-secondary">
                                         <CardContent className="flex flex-col items-start justify-between p-6 h-full">
-                                            <blockquote className="text-muted-foreground italic border-l-2 pl-4 mb-6">"{item.testimonial}"</blockquote>
+                                            <blockquote className="text-muted-foreground italic border-l-2 border-primary pl-4 mb-6">"{item.testimonial}"</blockquote>
                                             <div className="flex items-center gap-4">
                                                 <Avatar className="h-12 w-12">
                                                     <AvatarImage src={item.avatar} alt={item.name} data-ai-hint={item.aiHint} />

@@ -30,7 +30,7 @@ const securityFeatures = [
 
 export function SecuritySection() {
     return (
-        <section id="security" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="security" className="w-full py-12 md:py-24 lg:py-32 bg-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Security & Trust</div>
@@ -41,8 +41,8 @@ export function SecuritySection() {
                 </div>
                 <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
                     {securityFeatures.map((feature, index) => (
-                        <div key={index} className="flex flex-col items-center text-center p-6 rounded-lg bg-secondary/30 transition-colors group">
-                             <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4">
+                        <div key={index} className="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/20 transition-colors group">
+                             <div className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4">
                                 {feature.icon}
                             </div>
                             <h3 className="text-lg font-semibold mt-2 mb-2">{feature.title}</h3>

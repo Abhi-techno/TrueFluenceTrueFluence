@@ -6,7 +6,7 @@ export function CtaSection() {
     return (
         <section id="cta" className="w-full py-20 md:py-28 lg:py-32">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center gap-6 text-center bg-gradient-to-br from-secondary/50 via-background to-secondary/50 p-8 md:p-16 rounded-2xl shadow-2xl overflow-hidden relative border border-primary/20">
+                <div className="flex flex-col items-center gap-6 text-center bg-gray-900/50 p-8 md:p-16 rounded-3xl shadow-2xl overflow-hidden relative border border-primary/20">
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-primary/10 animate-pulse-slow"></div>
                     <div className="absolute -top-24 -left-24 w-72 h-72 bg-primary/20 rounded-full filter blur-3xl opacity-40 animate-pulse-slow"></div>
                     <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-accent/20 rounded-full filter blur-3xl opacity-40 animate-pulse-slow delay-1000"></div>
@@ -25,7 +25,7 @@ export function CtaSection() {
                                     <MoveRight className="transition-transform duration-300 group-hover/cta:translate-x-1" />
                                 </Link>
                             </Button>
-                            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+                            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto bg-transparent border-primary/50 text-primary-foreground hover:bg-primary/10">
                                 <Link href="#">Join as an Influencer</Link>
                             </Button>
                         </div>

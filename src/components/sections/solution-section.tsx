@@ -19,7 +19,7 @@ const brandFeatures = [
 
 export function SolutionSection() {
     return (
-        <section id="solution" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+        <section id="solution" className="w-full py-12 md:py-24 lg:py-32 bg-black">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">The Solution</div>
@@ -29,15 +29,15 @@ export function SolutionSection() {
                     </p>
                 </div>
                 <Tabs defaultValue="brands" className="w-full max-w-4xl mx-auto animate-fade-in-up" style={{ animationDelay: '300ms', animationFillMode: 'backwards' }}>
-                    <TabsList className="grid w-full grid-cols-2 h-12 bg-secondary/50">
-                        <TabsTrigger value="brands" className="text-base">For Brands</TabsTrigger>
-                        <TabsTrigger value="influencers" className="text-base">For Influencers</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-2 h-12 bg-secondary/50 rounded-xl">
+                        <TabsTrigger value="brands" className="text-base rounded-lg">For Brands</TabsTrigger>
+                        <TabsTrigger value="influencers" className="text-base rounded-lg">For Influencers</TabsTrigger>
                     </TabsList>
                     <TabsContent value="brands" className="mt-8">
                         <div className="grid gap-6">
                             {brandFeatures.map((feature, index) => (
                                 <div key={index} className="flex items-start gap-4 p-4 rounded-lg transition-colors hover:bg-secondary/30">
-                                    <div className="flex-shrink-0 mt-1 p-2 bg-primary/10 rounded-full">{feature.icon}</div>
+                                    <div className="flex-shrink-0 mt-1 p-3 bg-primary/10 rounded-xl">{feature.icon}</div>
                                     <div>
                                         <h3 className="font-semibold text-lg">{feature.title}</h3>
                                         <p className="text-sm text-muted-foreground">{feature.description}</p>
@@ -50,7 +50,7 @@ export function SolutionSection() {
                         <div className="grid gap-6">
                             {influencerFeatures.map((feature, index) => (
                                 <div key={index} className="flex items-start gap-4 p-4 rounded-lg transition-colors hover:bg-secondary/30">
-                                    <div className="flex-shrink-0 mt-1 p-2 bg-primary/10 rounded-full">{feature.icon}</div>
+                                    <div className="flex-shrink-0 mt-1 p-3 bg-primary/10 rounded-xl">{feature.icon}</div>
                                     <div>
                                         <h3 className="font-semibold text-lg">{feature.title}</h3>
                                         <p className="text-sm text-muted-foreground">{feature.description}</p>

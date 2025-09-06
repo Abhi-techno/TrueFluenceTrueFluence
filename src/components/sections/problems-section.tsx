@@ -31,7 +31,7 @@ const problems = [
 
 export function ProblemsSection() {
   return (
-    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
+    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/10">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
           <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary-foreground">The Problem</div>
@@ -44,10 +44,10 @@ export function ProblemsSection() {
           {problems.map((problem, index) => (
             <Card 
               key={problem.title} 
-              className="flex flex-col items-start p-6 text-left bg-background/50 hover:bg-background transition-colors duration-300 animate-fade-in-up group"
-              style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'backwards' }}
+              className="flex flex-col items-start p-6 text-left bg-secondary/20 hover:bg-secondary/30 border border-transparent hover:border-primary/30 transition-all duration-300 animate-fade-in-up group"
+              style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
               >
-              <div className="mb-4 p-3 bg-secondary rounded-full group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
+              <div className="mb-4 p-3 bg-secondary rounded-xl group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
               <p className="text-muted-foreground">{problem.description}</p>
             </Card>

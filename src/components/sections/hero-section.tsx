@@ -6,10 +6,8 @@ import { ArrowRight } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative w-full pt-24 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-background overflow-hidden">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#1e40af_1px,transparent_1px)] [background-size:32px_32px]"></div>
-        <div className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 bg-primary/10 rounded-full filter blur-3xl opacity-30 animate-pulse-slow"></div>
-        <div className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-accent/10 rounded-full filter blur-3xl opacity-30 animate-pulse-slow delay-2000"></div>
+    <section className="relative w-full pt-24 pb-12 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 bg-black overflow-hidden">
+        <div className="absolute inset-0 -z-10 h-full w-full bg-black bg-[radial-gradient(#1e40af_1px,transparent_1px)] [background-size:32px_32px]"></div>
         
         <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
           <div className="flex flex-col items-center space-y-6 animate-fade-in-up">
@@ -30,7 +28,7 @@ export function HeroSection() {
                   <ArrowRight className="transition-transform duration-300 group-hover/hero:translate-x-1" />
                   </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto bg-transparent border-primary/50 text-primary-foreground hover:bg-primary/10">
                 <Link href="#">I'm an Influencer</Link>
               </Button>
             </div>
@@ -43,7 +41,7 @@ export function HeroSection() {
                   alt="TrueFluence Dashboard"
                   width={1200}
                   height={600}
-                  className="rounded-xl shadow-2xl ring-1 ring-border relative transform hover:scale-[1.02] transition-transform duration-500"
+                  className="rounded-xl shadow-2xl ring-1 ring-white/10 relative transform hover:scale-[1.02] transition-transform duration-500"
                   data-ai-hint="dashboard analytics"
                 />
             </div>
