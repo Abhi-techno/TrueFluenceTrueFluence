@@ -13,9 +13,9 @@ const coreFeatures = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+    <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16 animate-fade-in-up">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
           <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Core Features</div>
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Built for Impact</h2>
           <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -26,8 +26,8 @@ export function FeaturesSection() {
           {coreFeatures.map((feature, index) => (
             <Card 
               key={feature.title} 
-              className="text-center p-6 bg-secondary/20 border-secondary hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-2 group animate-fade-in-up"
-              style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
+              className="text-center p-6 bg-card border-border/50 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-2 group"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardHeader className="flex flex-col items-center p-0 mb-4">
                 <div className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:scale-110 duration-300">

@@ -1,14 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { href: "#features", label: "Features" },
@@ -22,29 +32,33 @@ const Header = () => {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        "bg-black/70 backdrop-blur-xl border-b border-white/10"
+        isScrolled || isMenuOpen
+          ? "bg-background/80 backdrop-blur-xl border-b border-border/50"
+          : "bg-transparent"
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" onClick={() => setIsMenuOpen(false)}>
           <Logo />
         </Link>
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-2">
-          <Button variant="ghost" className="text-white hover:bg-white/10">Log In</Button>
-          <Button className="bg-white text-black hover:bg-gray-200">Sign Up</Button>
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeSwitcher />
+          <Button variant="ghost" className="text-foreground/80 hover:text-foreground">Log In</Button>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">Sign Up</Button>
         </div>
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeSwitcher />
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             <span className="sr-only">Toggle menu</span>
@@ -52,21 +66,21 @@ const Header = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div className="md:hidden bg-black/90 backdrop-blur-xl border-t border-white/10 absolute top-full left-0 w-full">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 absolute top-full left-0 w-full">
           <nav className="flex flex-col gap-4 p-6">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-lg font-medium text-gray-200 hover:text-white py-2 text-center"
+                className="text-lg font-medium text-foreground/80 hover:text-foreground py-2 text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex flex-col gap-4 pt-6 border-t border-white/20">
+            <div className="flex flex-col gap-4 pt-6 border-t border-border/50">
                 <Button variant="ghost" size="lg" className="w-full text-lg">Log In</Button>
-                <Button size="lg" className="w-full text-lg bg-white text-black hover:bg-gray-200">Sign Up</Button>
+                <Button size="lg" className="w-full text-lg">Sign Up</Button>
             </div>
           </nav>
         </div>

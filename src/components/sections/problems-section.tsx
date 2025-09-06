@@ -31,10 +31,10 @@ const problems = [
 
 export function ProblemsSection() {
   return (
-    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/10">
+    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
-          <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary-foreground">The Problem</div>
+        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+          <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">The Problem</div>
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Influencer Marketing is Broken</h2>
           <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Despite its potential, the industry is plagued by issues of trust, transparency, and accessibility.
@@ -44,8 +44,8 @@ export function ProblemsSection() {
           {problems.map((problem, index) => (
             <Card 
               key={problem.title} 
-              className="flex flex-col items-start p-6 text-left bg-secondary/20 hover:bg-secondary/30 border border-transparent hover:border-primary/30 transition-all duration-300 animate-fade-in-up group"
-              style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
+              className="flex flex-col items-start p-6 text-left bg-card hover:bg-secondary/60 border border-border/50 hover:border-primary/30 transition-all duration-300 group"
+              style={{ animationDelay: `${index * 100}ms` }}
               >
               <div className="mb-4 p-3 bg-secondary rounded-xl group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
               <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>

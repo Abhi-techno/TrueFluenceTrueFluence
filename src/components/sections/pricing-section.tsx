@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, IndianRupee } from "lucide-react";
 
 const tiers = [
     {
@@ -12,7 +12,8 @@ const tiers = [
     },
     {
         name: "Pro",
-        price: "₹1499",
+        price: "1499",
+        pricePrefix: "₹",
         priceSuffix: "/ month",
         description: "Unlock analytics and get a trust badge.",
         features: ["Everything in Basic", "Pro Verified Badge", "AI Growth Insights", "Enhanced Visibility"],
@@ -20,7 +21,8 @@ const tiers = [
     },
     {
         name: "Premium",
-        price: "₹3999",
+        price: "3999",
+        pricePrefix: "₹",
         priceSuffix: "/ month",
         description: "For serious creators who want priority access.",
         features: ["Everything in Pro", "Premium Placement", "Priority Support", "Smart Pricing AI"],
@@ -30,9 +32,9 @@ const tiers = [
 
 export function PricingSection() {
     return (
-        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-black">
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Influencer Pricing</div>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Invest in Your Growth</h2>
                     <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -43,19 +45,20 @@ export function PricingSection() {
                     {tiers.map((tier, index) => (
                         <Card 
                             key={tier.name} 
-                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 -translate-y-4 bg-secondary/30' : 'bg-secondary/20 border-secondary hover:border-primary/50 hover:-translate-y-2'}`}
-                            style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
+                            className={`flex flex-col rounded-xl transition-all duration-300 ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/10 -translate-y-4 bg-card' : 'bg-card border-border/50 hover:border-primary/50 hover:-translate-y-2'}`}
+                            style={{ animationDelay: `${index * 100}ms` }}
                         >
                             <CardHeader className="p-6">
                                 {tier.isPopular && <div className="text-xs font-semibold text-primary mb-2 tracking-widest uppercase">Most Popular</div>}
                                 <CardTitle className="text-2xl">{tier.name}</CardTitle>
                                 <div className="flex items-baseline gap-1 pt-4">
+                                    {tier.pricePrefix && <span className="text-2xl font-semibold">{tier.pricePrefix}</span>}
                                     <span className="text-4xl font-bold">{tier.price}</span>
                                     {tier.priceSuffix && <span className="text-muted-foreground">{tier.priceSuffix}</span>}
                                 </div>
                                 <CardDescription className="pt-1 h-12">{tier.description}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex-grow p-6 border-t border-b border-white/10">
+                            <CardContent className="flex-grow p-6 border-t border-b border-border/50">
                                 <ul className="space-y-3">
                                     {tier.features.map((feature, index) => (
                                         <li key={index} className="flex items-center gap-3">
