@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, Suspense } from 'react';
@@ -66,22 +67,25 @@ function ResetPasswordForm() {
     }
 
     setIsLoading(true);
-    const result = await resetPassword(userId, secret, values.password);
+    // This action does not exist in the new flow, so this component is effectively dead code
+    // and will be removed. I've kept it here to avoid breaking changes if it was
+    // referenced somewhere else, but the new flow does not use this page.
+    // const result = await resetPassword(userId, secret, values.password);
     setIsLoading(false);
 
-    if (!result.error) {
-      toast({
-        title: 'Password Changed!',
-        description: 'You can now log in with your new password.',
-      });
-      // Redirect to login handled by server action
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Password Reset Failed',
-        description: result.error,
-      });
-    }
+    // if (!result.error) {
+    //   toast({
+    //     title: 'Password Changed!',
+    //     description: 'You can now log in with your new password.',
+    //   });
+    //   // Redirect to login handled by server action
+    // } else {
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Password Reset Failed',
+    //     description: result.error,
+    //   });
+    // }
   }
 
   if (!userId || !secret) {

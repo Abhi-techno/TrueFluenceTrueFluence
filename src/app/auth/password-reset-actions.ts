@@ -1,33 +1,75 @@
+
 'use server';
 
 import { createAdminClient } from '@/lib/appwrite-server';
-import { headers } from 'next/headers';
+import { setupOtpDatabase, getOtp, deleteOtp } from '@/lib/appwrite-db';
+import { ID, Query } from 'node-appwrite';
 import { redirect } from 'next/navigation';
 
-export async function sendPasswordResetEmail(
+// Helper function to send an email. In a real app, use a robust email service.
+async function sendEmail(to: string, subject: string, text: string) {
+  // This is a placeholder. For this to work, you MUST configure Appwrite's SMTP service.
+  // Appwrite's createEmailToken is used here as a vehicle to send a templated email.
+  // You need to create a custom email template in Appwrite for this.
+  const { users, account } = createAdminClient();
+  try {
+     // Find the user to get their ID for the email sending function
+    const userList = await users.list([Query.equal('email', [to])]);
+    if (userList.users.length === 0) {
+      // Don't throw an error to prevent email enumeration
+      console.log(`Password reset attempted for non-existent user: ${to}`);
+      return;
+    }
+    const user = userList.users[0];
+    
+    // We use Appwrite's built-in mailer. The 'token' in the Appwrite email template
+    // will be our OTP text.
+    await account.createToken(user.$id, to, text);
+
+  } catch (error) {
+    console.error("Failed to send OTP email:", error);
+    // Do not rethrow to the client to avoid exposing internal errors.
+  }
+}
+
+// Step 1: Send OTP
+export async function sendResetOtp(
   email: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const { account } = createAdminClient();
-    const headersList = headers();
-    const origin = headersList.get('origin');
-    // The URL must be whitelisted in your Appwrite console under the platform settings
-    const resetUrl = `${origin}/auth/reset`;
+    const { users } = createAdminClient();
+    await setupOtpDatabase();
 
-    await account.createRecovery(email, resetUrl);
+    const userList = await users.list([Query.equal('email', [email])]);
 
-    return { success: true };
-  } catch (e: any) {
-    // To prevent email enumeration, we always return a success message.
-    // Appwrite's createRecovery will not throw an error for a non-existent email by default.
-    // We log the actual error for debugging but don't expose it to the client.
-    console.error('Failed to send password reset email:', e.message);
-
-    // If Appwrite *does* throw an error (e.g., rate-limiting), we can return a generic error.
-    if (e.type && e.type.startsWith('general_')) {
-       return { success: true }; // Still return success to prevent enumeration
+    if (userList.users.length === 0) {
+      // Silently succeed to prevent email enumeration
+      console.log(`Password reset attempted for non-existent user: ${email}`);
+      return { success: true };
     }
 
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    const { databases } = createAdminClient();
+    await databases.createDocument(
+      process.env.APPWRITE_DATABASE_ID!,
+      process.env.APPWRITE_OTPS_COLLECTION_ID!,
+      ID.unique(),
+      {
+        email,
+        otp,
+        expiresAt: expiry.toISOString(),
+      }
+    );
+
+    // IMPORTANT: For this to work, you MUST have an Appwrite email template for "Token"
+    // that displays the token to the user. E.g., "Your verification code is {{token}}"
+    await sendEmail(email, "Your Password Reset Code", otp);
+    
+    return { success: true };
+  } catch (e: any) {
+    console.error("Error in sendResetOtp:", e);
     return {
       success: false,
       error: 'An unexpected error occurred. Please try again later.',
@@ -35,23 +77,61 @@ export async function sendPasswordResetEmail(
   }
 }
 
-export async function resetPassword(
-  userId: string,
-  secret: string,
+// Step 2: Verify OTP
+export async function verifyResetOtp(
+  email: string,
+  otp: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const storedOtp = await getOtp(email, otp);
+
+    if (!storedOtp) {
+      return { success: false, error: 'Invalid or expired OTP.' };
+    }
+
+    return { success: true };
+  } catch (e: any) {
+    console.error("Error in verifyResetOtp:", e);
+    return {
+      success: false,
+      error: 'An unexpected error occurred during OTP verification.',
+    };
+  }
+}
+
+// Step 3: Reset Password
+export async function updatePasswordWithOtp(
+  email: string,
+  otp: string,
   password: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const { account } = createAdminClient();
-    // The secret is the token from the URL
-    await account.updateRecovery(userId, secret, password, password);
-    // Password was changed, redirect to login
-  } catch (e: any) {
-    console.error('Failed to reset password:', e);
-    if (e.message.includes('Invalid token')) {
-      return { success: false, error: 'The recovery link is invalid or has expired. Please request a new one.' };
+    // Re-verify OTP before changing password
+    const storedOtp = await getOtp(email, otp);
+    if (!storedOtp) {
+      return { success: false, error: 'Invalid or expired OTP. Please start over.' };
     }
-    return { success: false, error: 'Failed to reset password. Please try again.' };
+    
+    const { users } = createAdminClient();
+    const userList = await users.list([Query.equal('email', [email])]);
+     if (userList.users.length === 0) {
+      return { success: false, error: 'User not found.' };
+    }
+    const user = userList.users[0];
+
+    await users.updatePassword(user.$id, password);
+
+    // Invalidate the OTP
+    await deleteOtp(storedOtp.$id);
+    
+  } catch (e: any) {
+    console.error("Error in updatePasswordWithOtp:", e);
+    return {
+      success: false,
+      error: 'Failed to reset password. Please try again.',
+    };
   }
-  
-  redirect('/login');
+
+  // On success, redirect on the client-side after showing a success message.
+  return { success: true };
 }

@@ -1,3 +1,4 @@
+
 'use server';
 
 import { cookies } from 'next/headers';
@@ -13,7 +14,7 @@ interface FormState {
 
 export async function signup(formData: {name: string, email: string, password: string }): Promise<FormState> {
   try {
-    const { users, account } = await createAdminClient();
+    const { users } = await createAdminClient();
     
     const newUser = await users.create(
       ID.unique(),
@@ -23,6 +24,7 @@ export async function signup(formData: {name: string, email: string, password: s
       formData.name
     );
 
+    const { account } = await createAdminClient();
     // Create a token for email verification (OTP)
     const token = await account.createEmailToken(newUser.$id, formData.email);
       
