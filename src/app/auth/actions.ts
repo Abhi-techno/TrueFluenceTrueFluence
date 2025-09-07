@@ -41,6 +41,7 @@ export async function signup(formData: {name: string, email: string, password: s
 export async function verifyEmail(userId: string, secret: string): Promise<FormState> {
     try {
         const { account } = await createAdminClient();
+        // Use the secret from the OTP as the user's password to create a session
         const session = await account.createSession(userId, secret);
         
         const sessionClient = await createSessionClient(cookies());
