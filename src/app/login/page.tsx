@@ -40,7 +40,7 @@ export default function LoginPage() {
         title: 'Logged In!',
         description: 'Welcome back!',
       });
-      router.push('/profile');
+      router.push('/');
     } else {
       toast({
         variant: 'destructive',

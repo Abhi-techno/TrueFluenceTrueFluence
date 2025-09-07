@@ -82,7 +82,7 @@ export default function SignupPage() {
         title: 'Account Verified!',
         description: 'You have been successfully signed up.',
       });
-      router.push('/profile');
+      router.push('/');
     } else {
       toast({
         variant: 'destructive',
