@@ -13,7 +13,7 @@ const coreFeatures = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-background">
+    <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16 animate-fade-in-up">
           <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Core Features</div>
@@ -30,7 +30,10 @@ export function FeaturesSection() {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardHeader className="flex flex-col items-center p-0 mb-4">
-                <div className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:scale-110 duration-300">
+                <div 
+                  className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:scale-110 duration-300 animate-float"
+                  style={{ animationDelay: `${index * 250}ms` }}
+                >
                     {feature.icon}
                 </div>
                 <CardTitle className="text-foreground">{feature.title}</CardTitle>
