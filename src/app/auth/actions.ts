@@ -56,7 +56,8 @@ export async function login(formData: {email: string, password: string }): Promi
       formData.email,
       formData.password
     );
-    router.push('/');
+    redirect('/');
+    return { success: true };
   } catch (e: any) {
     return { success: false, error: e.message };
   }
