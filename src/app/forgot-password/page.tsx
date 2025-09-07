@@ -64,32 +64,29 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
     const result = await sendPasswordResetEmail(values.email);
 
+    // This message is intentionally generic to prevent user enumeration.
+    toast({
+        title: 'Recovery Email Sent',
+        description: 'If an account exists for this email, you will receive a recovery code.',
+    });
+
     if (result.success) {
       try {
         const users = await account.listUsers(values.email);
         if (users.total > 0) {
             setUserId(users.users[0].$id);
             setUserEmail(values.email);
-            toast({
-                title: 'Recovery Email Sent',
-                description: 'Check your email for the recovery code.',
-            });
             setStep('otp');
         } else {
-            toast({
-                title: 'Recovery Email Sent',
-                description: 'If an account exists for this email, you will receive a recovery code.',
-            });
+            // If user not found, redirect to login to complete the generic flow.
             router.push('/login');
         }
       } catch (e) {
-          toast({
-              title: 'Recovery Email Sent',
-              description: 'If an account exists for this email, you will receive a recovery code.',
-          });
+          // If Appwrite throws (e.g. user not found), redirect to login
           router.push('/login');
       }
     } else {
+        // Handle server-side errors from sendPasswordResetEmail if any
         toast({ variant: 'destructive', title: 'Error', description: result.error });
     }
     setIsLoading(false);
@@ -188,7 +185,7 @@ export default function ForgotPasswordPage() {
                         )}
                         />
                         <Button type="submit" className="w-full" disabled={isLoading}>
-                            Verify OTP
+                            Verify Code
                         </Button>
                     </form>
                 </Form>
