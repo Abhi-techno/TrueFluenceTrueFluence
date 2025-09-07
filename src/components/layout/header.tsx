@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
@@ -62,10 +62,6 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center justify-end gap-2 md:flex-1">
-          <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
-          </Button>
           <ThemeSwitcher />
         </div>
 
