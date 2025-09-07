@@ -24,18 +24,38 @@ export async function signup(formData: {name: string, email: string, password: s
       formData.name
     );
 
-    // Create email verification link
-    const verification = await account.createVerification(
-      process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/profile` : 'http://localhost:3000/profile'
+    // Create email verification token (OTP)
+    const token = await account.createEmailToken(
+        newUser.$id,
+        formData.email
     );
       
-    console.log('Verification link sent:', verification);
+    console.log('Email token created:', token);
 
     return { success: true, userId: newUser.$id };
   } catch (e: any) {
     return { success: false, error: e.message };
   }
 }
+
+export async function verifyEmail(userId: string, secret: string): Promise<FormState> {
+    try {
+        const { account } = await createAdminClient();
+        const session = await account.createSession(userId, secret);
+        
+        const sessionClient = await createSessionClient(cookies());
+        cookies().set(
+            sessionClient.client.config.sessionName,
+            session.secret,
+            sessionClient.client.config.sessionOptions
+        );
+
+        return { success: true, userId };
+    } catch (e: any) {
+        return { success: false, error: e.message };
+    }
+}
+
 
 export async function login(formData: {email: string, password: string }): Promise<FormState> {
   try {
