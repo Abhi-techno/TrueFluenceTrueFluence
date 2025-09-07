@@ -19,16 +19,16 @@ const brandFeatures = [
 
 export function SolutionSection() {
     return (
-        <section id="solution" className="w-full py-20 md:py-28 lg:py-32 bg-background">
-            <div className="container mx-auto px-4 md:px-6">
+        <section id="solution" className="w-full py-20 bg-background">
+            <div className="container mx-auto px-4">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16 animate-fade-in-up">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary-foreground bg-primary/10 border border-primary/20 shadow-sm">The Solution</div>
-                    <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">A Trust-First Ecosystem</h2>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
+                    <h2 className="text-4xl font-extrabold tracking-tight">A Trust-First Ecosystem</h2>
+                    <p className="max-w-[900px] text-muted-foreground text-lg">
                         TrueFluence empowers both sides of the collaboration with powerful, easy-to-use tools.
                     </p>
                 </div>
-                <Tabs defaultValue="brands" className="w-full max-w-4xl mx-auto animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                <Tabs defaultValue="brands" className="w-full max-w-md mx-auto animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                     <TabsList className="grid w-full grid-cols-2 h-14 bg-secondary p-1.5 rounded-xl shadow-inner-lg">
                         <TabsTrigger value="brands" className="text-base rounded-lg data-[state=active]:shadow-md">For Brands</TabsTrigger>
                         <TabsTrigger value="influencers" className="text-base rounded-lg data-[state=active]:shadow-md">For Influencers</TabsTrigger>

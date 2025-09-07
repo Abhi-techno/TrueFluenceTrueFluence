@@ -9,27 +9,27 @@ import { Mail, Phone, MapPin } from "lucide-react";
 export default function ContactPage() {
   return (
     <div className="bg-background text-foreground">
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container mx-auto px-4 md:px-6">
+      <section className="w-full py-12">
+        <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Get in Touch</h1>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <h1 className="text-3xl font-bold tracking-tighter">Get in Touch</h1>
+            <p className="max-w-[900px] text-muted-foreground text-lg">
               Have a question or want to work with us? We'd love to hear from you.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="w-full pb-12 md:pb-24 lg:pb-32">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-10 lg:grid-cols-2">
+      <section className="w-full pb-12">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-10">
             <Card className="bg-secondary/30 border-secondary">
               <CardHeader>
                 <CardTitle>Contact Form</CardTitle>
               </CardHeader>
               <CardContent>
                 <form className="space-y-4">
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-4">
                     <Input placeholder="First Name" />
                     <Input placeholder="Last Name" />
                   </div>

@@ -24,11 +24,11 @@ const BottomNavbar = () => {
     const pathname = usePathname();
 
     return (
-        <nav className="fixed bottom-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-xl border-t border-border/50 z-50 lg:hidden">
+        <nav className="fixed bottom-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-xl border-t border-border/50 z-50">
             <div className="container mx-auto h-full">
                 <ul className="flex justify-around items-center h-full">
                     {navLinks.map((link) => {
-                        const isActive = (pathname === "/" && link.href === "/") || (pathname !== "/" && link.href.startsWith(pathname));
+                        const isActive = (pathname === "/" && link.href === "/") || (pathname !== "/" && pathname.startsWith(link.href) && link.href !== "/");
                         return (
                             <li key={link.href}>
                                 <Link href={link.href}>

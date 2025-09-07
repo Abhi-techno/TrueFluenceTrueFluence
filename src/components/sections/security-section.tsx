@@ -31,16 +31,16 @@ const securityFeatures = [
 
 export function SecuritySection() {
     return (
-        <section id="security" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
-            <div className="container mx-auto px-4 md:px-6">
+        <section id="security" className="w-full py-12 bg-secondary/50">
+            <div className="container mx-auto px-4">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Security & Trust</div>
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Your Foundation of Trust</h2>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                    <h2 className="text-3xl font-bold tracking-tighter">Your Foundation of Trust</h2>
+                    <p className="max-w-[900px] text-muted-foreground text-lg">
                         We've built TrueFluence on a robust framework of security measures to protect every user.
                     </p>
                 </div>
-                <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="max-w-md mx-auto grid grid-cols-1 gap-8">
                     {securityFeatures.map((feature, index) => (
                         <Card 
                             key={index} 

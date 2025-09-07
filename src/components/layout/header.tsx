@@ -25,7 +25,7 @@ const Header = () => {
         isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : "bg-transparent"
       )}
     >
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4">
         <Link href="/">
           <Logo />
         </Link>

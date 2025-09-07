@@ -28,22 +28,22 @@ const testimonials = [
 
 export function TestimonialsSection() {
     return (
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-background">
-            <div className="container mx-auto px-4 md:px-6">
+        <section id="testimonials" className="w-full py-12 bg-background">
+            <div className="container mx-auto px-4">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Loved by Brands & Influencers</h2>
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
+                    <h2 className="text-3xl font-bold tracking-tighter">Loved by Brands & Influencers</h2>
+                    <p className="max-w-[900px] text-muted-foreground text-lg">
                         Don't just take our word for it. Here's what our users are saying.
                     </p>
                 </div>
                 <Carousel
                     opts={{ align: "start", loop: true }}
-                    className="w-full max-w-4xl mx-auto animate-zoom-in"
+                    className="w-full max-w-md mx-auto animate-zoom-in"
                     style={{ animationDelay: '300ms' }}
                 >
                     <CarouselContent>
                         {testimonials.map((item, index) => (
-                            <CarouselItem key={index} className="md:basis-1/2">
+                            <CarouselItem key={index}>
                                 <div className="p-1">
                                     <Card className="h-full bg-secondary/50 border-secondary/20 shadow-sm">
                                         <CardContent className="flex flex-col items-start justify-between p-6 h-full">
@@ -64,8 +64,8 @@ export function TestimonialsSection() {
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <CarouselPrevious className="hidden sm:flex" />
-                    <CarouselNext className="hidden sm:flex" />
+                    <CarouselPrevious className="-left-4" />
+                    <CarouselNext className="-right-4" />
                 </Carousel>
             </div>
         </section>

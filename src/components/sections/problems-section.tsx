@@ -31,16 +31,16 @@ const problems = [
 
 export function ProblemsSection() {
   return (
-    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="problems" className="w-full py-12 bg-secondary/50">
+      <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
           <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">The Problem</div>
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Influencer Marketing is Broken</h2>
-          <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          <h2 className="text-3xl font-bold tracking-tighter">Influencer Marketing is Broken</h2>
+          <p className="max-w-[900px] text-muted-foreground text-lg">
             Despite its potential, the industry is plagued by issues of trust, transparency, and accessibility.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 gap-6 max-w-md mx-auto">
           {problems.map((problem, index) => (
             <Card 
               key={problem.title} 
