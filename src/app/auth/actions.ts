@@ -40,8 +40,11 @@ export async function verifyEmail(userId: string, secret: string): Promise<FormS
     try {
         const { account } = await createAdminClient();
         
-        // Verify the token, which also logs the user in
-        const session = await account.updateEmailVerification(userId, secret);
+        // Verify the token
+        await account.updateEmailVerification(userId, secret);
+
+        // Create a session for the user
+        const session = await account.createSession(userId, secret);
 
         // Set the session cookie
         cookies().set(
