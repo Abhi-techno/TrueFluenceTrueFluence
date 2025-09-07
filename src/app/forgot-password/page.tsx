@@ -87,6 +87,7 @@ export default function ForgotPasswordPage() {
   // Step 3: Reset Password
   async function onResetSubmit(values: ResetFormValues) {
     setIsLoading(true);
+    // Pass the verified OTP from step 2
     const result = await updatePasswordWithOtp(userEmail, verifiedOtp, values.password);
     setIsLoading(false);
 

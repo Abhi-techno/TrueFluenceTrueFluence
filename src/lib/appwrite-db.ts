@@ -1,12 +1,12 @@
 'use server';
 
-import { Databases, ID, Query, AppwriteException } from 'node-appwrite';
+import { Databases, ID, Query } from 'node-appwrite';
 import { createAdminClient } from './appwrite-server';
 
 const OTP_DB_ID = '68c8a7c6b98bb3c8a9c2';
 const OTP_COLLECTION_ID = '68c8a7d1d2c6b9a8a6b2';
-
 let databases: Databases | null = null;
+let dbSetupDone = false;
 
 async function getDatabases() {
   if (databases) {
@@ -19,28 +19,25 @@ async function getDatabases() {
 
 // Sets up the database and collection if they don't exist
 async function setupOtpDatabase() {
+    if (dbSetupDone) return;
     const db = await getDatabases();
     try {
         await db.get(OTP_DB_ID);
     } catch (e: any) {
         if (e.code === 404) {
-            // If DB doesn't exist, create it and the collection.
             await db.create(OTP_DB_ID, 'TrueFluenceDB');
             await db.createCollection(OTP_DB_ID, OTP_COLLECTION_ID, 'otps');
-
-            // Add attributes to the collection
             await db.createStringAttribute(OTP_DB_ID, OTP_COLLECTION_ID, 'email', 255, true);
             await db.createStringAttribute(OTP_DB_ID, OTP_COLLECTION_ID, 'otp', 10, true);
             await db.createIntegerAttribute(OTP_DB_ID, OTP_COLLECTION_ID, 'expiresAt', true);
-
-            // Add indexes for querying
             await db.createIndex(OTP_DB_ID, OTP_COLLECTION_ID, 'email_index', 'key', ['email'], ['ASC']);
-             await db.createIndex(OTP_DB_ID, OTP_COLLECTION_ID, 'otp_index', 'key', ['otp'], ['ASC']);
+            await db.createIndex(OTP_DB_ID, OTP_COLLECTION_ID, 'otp_index', 'key', ['otp'], ['ASC']);
         } else {
-            // Rethrow other errors
+            console.error("Error checking/creating database:", e);
             throw e;
         }
     }
+    dbSetupDone = true;
 }
 
 // Stores an OTP with an email and expiry time
@@ -48,6 +45,17 @@ export async function storeOtp(email: string, otp: string): Promise<void> {
     await setupOtpDatabase();
     const db = await getDatabases();
     const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes from now
+
+    // Optional: Clean up old OTPs for the same email
+    try {
+        const oldOtps = await db.listDocuments(OTP_DB_ID, OTP_COLLECTION_ID, [Query.equal('email', email)]);
+        for (const oldOtp of oldOtps.documents) {
+            await db.deleteDocument(OTP_DB_ID, OTP_COLLECTION_ID, oldOtp.$id);
+        }
+    } catch (error) {
+        // Log but don't block if cleanup fails
+        console.error("Error cleaning up old OTPs:", error);
+    }
 
     await db.createDocument(
         OTP_DB_ID,
@@ -68,6 +76,7 @@ export async function getOtp(email: string, otp: string) {
         const response = await db.listDocuments(OTP_DB_ID, OTP_COLLECTION_ID, [
             Query.equal('email', email),
             Query.equal('otp', otp),
+            Query.greaterThan('expiresAt', Date.now()), // Check for expiration
             Query.orderDesc('$createdAt'),
             Query.limit(1)
         ]);
@@ -77,9 +86,10 @@ export async function getOtp(email: string, otp: string) {
         }
         return null;
     } catch (e) {
-        // This might happen if the collection/db is not ready, which is unlikely
-        // after setupOtpDatabase call.
         console.error("Error fetching OTP:", e);
+        // This might happen if the collection/db is not ready yet,
+        // so we try to set it up again just in case.
+        await setupOtpDatabase();
         return null;
     }
 }

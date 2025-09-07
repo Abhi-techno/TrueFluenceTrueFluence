@@ -2,7 +2,8 @@
 
 import { createAdminClient } from '@/lib/appwrite-server';
 import { storeOtp, getOtp, deleteOtp } from '@/lib/appwrite-db';
-import { ID, AppwriteException } from 'node-appwrite';
+import { ID } from 'node-appwrite';
+import { Query } from 'appwrite';
 
 // Step 1: Send OTP to user's email
 export async function sendResetOtp(email: string): Promise<{ success: boolean; error?: string }> {
@@ -11,9 +12,10 @@ export async function sendResetOtp(email: string): Promise<{ success: boolean; e
     
     // Check if user exists
     try {
-        const userList = await users.list([Query.equal('email', [email])]);
+        const userList = await users.list([Query.equal('email', email)]);
         if (userList.total === 0) {
             // To prevent user enumeration, we return success even if the email is not found.
+            // This is a security measure. The UI will indicate that if an account exists, an email has been sent.
             return { success: true };
         }
     } catch (e: any) {
@@ -28,9 +30,11 @@ export async function sendResetOtp(email: string): Promise<{ success: boolean; e
     // Store OTP in the database with an expiry
     await storeOtp(email, otp);
 
-    // Send the OTP via email using createEmailToken as a transport mechanism
-    // The Appwrite email template for "Password Reset" MUST be configured to display the {{token}}.
-    await account.createToken(ID.unique(), email, ['password-reset'], `Your password reset OTP is: ${otp}`);
+    // This is a workaround to send a simple text email via Appwrite.
+    // The Appwrite email template for "General" (createToken) must be configured
+    // to display the token. E.g., "Your password reset OTP is: {{token}}"
+    // The 'url' param is mandatory but we don't need it.
+    await account.createToken(ID.unique(), email, ['password-reset'], `http://localhost/reset`, otp);
     
     return { success: true };
   } catch (e: any) {
@@ -49,11 +53,10 @@ export async function verifyResetOtp(email: string, otp: string): Promise<{ succ
       return { success: false, error: 'Invalid or expired OTP. Please try again.' };
     }
 
-    if (Date.now() > storedOtpDoc.expiresAt) {
-      await deleteOtp(storedOtpDoc.$id);
-      return { success: false, error: 'OTP has expired. Please request a new one.' };
-    }
-
+    // The Date.now() > storedOtpDoc.expiresAt check is not strictly needed here because
+    // a background process could clean up expired OTPs, but it's good for immediate feedback.
+    // However, the getOtp function already handles finding non-expired tokens.
+    
     return { success: true };
   } catch (e: any) {
     console.error("Failed to verify OTP:", e);
@@ -70,14 +73,14 @@ export async function updatePasswordWithOtp(
     try {
         // First, re-verify the OTP to make sure it's still valid
         const storedOtpDoc = await getOtp(email, otp);
-        if (!storedOtpDoc || Date.now() > storedOtpDoc.expiresAt) {
+        if (!storedOtpDoc) {
             return { success: false, error: 'Invalid or expired OTP. Please restart the process.' };
         }
 
         const { users } = createAdminClient();
         
         // Get user to update password
-        const userList = await users.list([Query.equal('email', [email])]);
+        const userList = await users.list([Query.equal('email', email)]);
         if (userList.total === 0) {
             return { success: false, error: "User not found." };
         }
