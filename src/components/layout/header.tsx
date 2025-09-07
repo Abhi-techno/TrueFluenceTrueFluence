@@ -31,10 +31,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
-        isScrolled || isMenuOpen
-          ? "bg-background/80 backdrop-blur-xl border-b border-border/50"
-          : "bg-transparent"
+        "sticky top-0 z-50 w-full transition-all duration-300 bg-background/80 backdrop-blur-xl border-b border-border/50",
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
@@ -46,16 +43,16 @@ const Header = () => {
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-2">
           <ThemeSwitcher />
           <Button variant="ghost" className="text-foreground/80 hover:text-foreground">Log In</Button>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">Sign Up</Button>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">Sign Up</Button>
         </div>
         <div className="md:hidden flex items-center gap-2">
           <ThemeSwitcher />
