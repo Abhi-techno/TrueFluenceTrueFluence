@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { AppwriteException } from 'appwrite';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -40,11 +41,12 @@ export default function LoginPage() {
         description: 'Welcome back!',
       });
       router.push('/profile');
-    } catch (error: any) {
+    } catch (error) {
+      const e = error as AppwriteException;
       toast({
         variant: 'destructive',
         title: 'Login Failed',
-        description: error.message,
+        description: e.message,
       });
     } finally {
       setIsLoading(false);

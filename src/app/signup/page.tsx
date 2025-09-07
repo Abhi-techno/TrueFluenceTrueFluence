@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { AppwriteException } from 'appwrite';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -43,11 +44,12 @@ export default function SignupPage() {
         description: "You have been successfully signed up.",
       });
       router.push('/profile');
-    } catch (error: any) {
+    } catch (error) {
+      const e = error as AppwriteException;
       toast({
         variant: 'destructive',
         title: 'Signup Failed',
-        description: error.message,
+        description: e.message,
       });
     } finally {
       setIsLoading(false);
