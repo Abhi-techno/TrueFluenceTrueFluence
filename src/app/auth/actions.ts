@@ -15,7 +15,6 @@ export async function signup(formData: {name: string, email: string, password: s
   try {
     const { users, account } = await createAdminClient();
     
-    // Create user
     const newUser = await users.create(
       ID.unique(),
       formData.email,
@@ -24,10 +23,8 @@ export async function signup(formData: {name: string, email: string, password: s
       formData.name
     );
 
-    // Create email verification link
-    // The URL should point to your app's verification page
-    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verification`;
-    await account.createVerification(verificationUrl);
+    // Create a token for email verification
+    const token = await account.createEmailToken(newUser.$id, formData.email);
       
     return { success: true, userId: newUser.$id };
   } catch (e: any) {
@@ -35,12 +32,19 @@ export async function signup(formData: {name: string, email: string, password: s
   }
 }
 
-export async function verifyEmail(userId: string, secret: string): Promise<FormState> {
+export async function verifyOtp(userId: string, secret: string): Promise<FormState> {
     try {
         const { account } = await createAdminClient();
         
-        // Verify the token by calling updateVerification
-        await account.updateVerification(userId, secret);
+        const session = await account.createSession(userId, secret);
+
+        cookies().set('appwrite-session', session.secret, {
+          path: '/',
+          httpOnly: true,
+          secure: true,
+          sameSite: 'strict',
+          expires: new Date(session.expire),
+        });
 
         return { success: true, userId };
     } catch (e: any) {
