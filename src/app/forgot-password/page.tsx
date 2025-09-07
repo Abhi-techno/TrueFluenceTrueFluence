@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -11,24 +12,24 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
-import { sendPasswordResetEmail, resetPassword } from '@/app/auth/actions';
 import { Eye, EyeOff } from 'lucide-react';
-import { account } from '@/lib/appwrite-client';
+import { sendResetOtp, verifyResetOtp, updatePasswordWithOtp } from '@/app/auth/password-reset-actions';
 
+// Schemas for each step of the form
 const emailSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
 });
 
 const otpSchema = z.object({
-  otp: z.string().min(1, { message: 'OTP is required.' }),
+  otp: z.string().min(6, { message: 'OTP must be 6 digits.' }).max(6, { message: 'OTP must be 6 digits.' }),
 });
 
 const resetSchema = z.object({
-  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
+    password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
+    confirmPassword: z.string(),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
 });
 
 type EmailFormValues = z.infer<typeof emailSchema>;
@@ -41,76 +42,52 @@ export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<'email' | 'otp' | 'reset'>('email');
   const [userEmail, setUserEmail] = useState('');
-  const [userId, setUserId] = useState('');
-  const [secret, setSecret] = useState('');
+  const [verifiedOtp, setVerifiedOtp] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const emailForm = useForm<EmailFormValues>({
-    resolver: zodResolver(emailSchema),
-    defaultValues: { email: '' },
-  });
+  // Forms for each step
+  const emailForm = useForm<EmailFormValues>({ resolver: zodResolver(emailSchema), defaultValues: { email: '' } });
+  const otpForm = useForm<OtpFormValues>({ resolver: zodResolver(otpSchema), defaultValues: { otp: '' } });
+  const resetForm = useForm<ResetFormValues>({ resolver: zodResolver(resetSchema), defaultValues: { password: '', confirmPassword: '' } });
 
-  const otpForm = useForm<OtpFormValues>({
-    resolver: zodResolver(otpSchema),
-    defaultValues: { otp: '' },
-  });
-
-  const resetForm = useForm<ResetFormValues>({
-    resolver: zodResolver(resetSchema),
-    defaultValues: { password: '', confirmPassword: '' },
-  });
-
+  // Step 1: Send OTP
   async function onEmailSubmit(values: EmailFormValues) {
     setIsLoading(true);
-    const result = await sendPasswordResetEmail(values.email);
-
-    // This message is intentionally generic to prevent user enumeration.
-    toast({
-        title: 'Recovery Email Sent',
-        description: 'If an account exists for this email, you will receive a recovery code.',
-    });
+    const result = await sendResetOtp(values.email);
+    setIsLoading(false);
 
     if (result.success) {
-      try {
-        const users = await account.listUsers(values.email);
-        if (users.total > 0) {
-            setUserId(users.users[0].$id);
-            setUserEmail(values.email);
-            setStep('otp');
-        } else {
-            // If user not found, redirect to login to complete the generic flow.
-            router.push('/login');
-        }
-      } catch (e) {
-          // If Appwrite throws (e.g. user not found), redirect to login
-          router.push('/login');
-      }
+      toast({
+        title: 'OTP Sent',
+        description: 'If an account exists for this email, you will receive a recovery code.',
+      });
+      setUserEmail(values.email);
+      setStep('otp');
     } else {
-        // Handle server-side errors from sendPasswordResetEmail if any
-        toast({ variant: 'destructive', title: 'Error', description: result.error });
+      toast({ variant: 'destructive', title: 'Error', description: result.error });
     }
+  }
+
+  // Step 2: Verify OTP
+  async function onOtpSubmit(values: OtpFormValues) {
+    setIsLoading(true);
+    const result = await verifyResetOtp(userEmail, values.otp);
     setIsLoading(false);
+
+    if (result.success) {
+        toast({ title: 'OTP Verified!', description: 'You can now set a new password.' });
+        setVerifiedOtp(values.otp);
+        setStep('reset');
+    } else {
+        toast({ variant: 'destructive', title: 'Verification Failed', description: result.error });
+    }
   }
 
-  function onOtpSubmit(values: OtpFormValues) {
-    setSecret(values.otp);
-    setStep('reset');
-  }
-
+  // Step 3: Reset Password
   async function onResetSubmit(values: ResetFormValues) {
     setIsLoading(true);
-
-    if (!userId || !secret) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Something went wrong. Please restart the process.' });
-        setIsLoading(false);
-        return;
-    }
-
-    const result = await resetPassword({
-        userId: userId,
-        secret: secret,
-        passwordNew: values.password,
-    });
+    const result = await updatePasswordWithOtp(userEmail, verifiedOtp, values.password);
+    setIsLoading(false);
 
     if (result.success) {
       toast({
@@ -125,7 +102,6 @@ export default function ForgotPasswordPage() {
         description: result.error,
       });
     }
-    setIsLoading(false);
   }
 
   const renderStep = () => {
@@ -166,7 +142,7 @@ export default function ForgotPasswordPage() {
           <>
             <CardHeader>
                 <CardTitle className="text-center text-2xl font-bold">Verify Your Identity</CardTitle>
-                <CardDescription className="text-center">Enter the code sent to {userEmail}.</CardDescription>
+                <CardDescription className="text-center">Enter the 6-digit code sent to {userEmail}.</CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...otpForm}>
@@ -176,16 +152,16 @@ export default function ForgotPasswordPage() {
                         name="otp"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Recovery Code (from Email)</FormLabel>
+                            <FormLabel>Recovery Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter the code from your email" {...field} disabled={isLoading} />
+                                <Input placeholder="Enter the 6-digit code" {...field} disabled={isLoading} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
                         )}
                         />
                         <Button type="submit" className="w-full" disabled={isLoading}>
-                            Verify Code
+                            {isLoading ? 'Verifying...' : 'Verify Code'}
                         </Button>
                     </form>
                 </Form>
