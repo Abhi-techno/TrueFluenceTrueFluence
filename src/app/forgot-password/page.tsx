@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { sendPasswordResetEmail, resetPassword } from '@/app/auth/actions';
 import { Eye, EyeOff } from 'lucide-react';
 import { account } from '@/lib/appwrite-client';
+import { AppwriteException } from 'appwrite';
 
 const emailSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
@@ -53,28 +54,36 @@ export default function ForgotPasswordPage() {
   async function onEmailSubmit(values: EmailFormValues) {
     setIsLoading(true);
     try {
-        const users = await account.listUsers(values.email);
-        if (users.total === 0) {
-            toast({
-                variant: 'destructive',
-                title: 'User not found',
-                description: 'No account found with this email. Please sign up.',
-            });
-            setIsLoading(false);
-            return;
-        }
-        
-        setUserId(users.users[0].$id);
-        setUserEmail(values.email);
-
+        // We will optimistically try to send the email.
+        // The server action will handle cases where the user does not exist.
         const result = await sendPasswordResetEmail(values.email);
 
         if (result.success) {
-            toast({
-                title: 'Recovery Email Sent',
-                description: 'Check your email for the recovery code.',
-            });
-            setStep(2);
+            // We need the user ID for the next step.
+            // We can get it now. If the user doesn't exist, this will throw.
+             try {
+                const users = await account.listUsers(values.email);
+                if (users.total > 0) {
+                    setUserId(users.users[0].$id);
+                    setUserEmail(values.email);
+                    toast({
+                        title: 'Recovery Email Sent',
+                        description: 'Check your email for the recovery code.',
+                    });
+                    setStep(2);
+                } else {
+                     toast({
+                        title: 'Recovery Email Sent',
+                        description: 'If an account exists for this email, you will receive a recovery code.',
+                    });
+                }
+             } catch (e) {
+                 // Even if it fails, show a generic message to prevent user enumeration
+                 toast({
+                    title: 'Recovery Email Sent',
+                    description: 'If an account exists for this email, you will receive a recovery code.',
+                });
+             }
         } else {
             toast({
                 variant: 'destructive',
@@ -95,6 +104,13 @@ export default function ForgotPasswordPage() {
 
   async function onResetSubmit(values: ResetFormValues) {
     setIsLoading(true);
+
+    if (!userId) {
+        toast({ variant: 'destructive', title: 'Error', description: 'User ID is missing. Please restart the process.' });
+        setIsLoading(false);
+        return;
+    }
+
     const result = await resetPassword({
         userId: userId,
         secret: values.otp,
