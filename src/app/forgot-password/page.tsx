@@ -72,12 +72,14 @@ export default function ForgotPasswordPage() {
                 });
                 setStep(2); // Move to the next step
             } else {
-                // Should not happen if sendPasswordResetEmail is configured correctly on the backend,
-                // but we handle it just in case.
+                 // This case should ideally not be hit if Appwrite email sending is consistent.
+                 // We show a generic message to avoid confirming if an email exists.
                 toast({
                     title: 'Recovery Email Sent',
                     description: 'If an account exists for this email, you will receive a recovery code.',
                 });
+                 // We don't advance to the next step if no user is found.
+                 router.push('/login');
             }
         } catch (e) {
             // This catch block handles the case where the user does not exist.
@@ -87,6 +89,7 @@ export default function ForgotPasswordPage() {
                 description: 'If an account exists for this email, you will receive a recovery code.',
             });
              // We don't move to step 2 because there's no user to reset the password for.
+             router.push('/login');
         }
     } else {
         toast({
