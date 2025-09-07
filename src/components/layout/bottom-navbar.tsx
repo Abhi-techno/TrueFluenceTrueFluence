@@ -9,6 +9,7 @@ import {
   DollarSign,
   Shield,
   Mail,
+  User
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -16,7 +17,7 @@ const navLinks = [
   { href: "/", label: "Home", icon: Home },
   { href: "/#features", label: "Features", icon: Compass },
   { href: "/#pricing", label: "Pricing", icon: DollarSign },
-  { href: "/#security", label: "Trust", icon: Shield },
+  { href: "/profile", label: "Profile", icon: User },
   { href: "/contact", label: "Contact", icon: Mail },
 ];
 
@@ -28,12 +29,12 @@ const BottomNavbar = () => {
             <div className="container mx-auto h-full">
                 <ul className="flex justify-around items-center h-full">
                     {navLinks.map((link) => {
-                        const isActive = (pathname === "/" && link.href === "/") || (pathname !== "/" && pathname.startsWith(link.href) && link.href !== "/");
+                        const isActive = pathname === link.href;
                         return (
                             <li key={link.href}>
                                 <Link href={link.href}>
                                     <div className={cn(
-                                        'flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-colors',
+                                        'flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-colors w-16',
                                         isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                                     )}>
                                         <link.icon className="h-6 w-6" />
