@@ -69,7 +69,7 @@ function ResetPasswordForm() {
     const result = await resetPassword(userId, secret, values.password);
     setIsLoading(false);
 
-    if (result.success) {
+    if (!result.error) {
       toast({
         title: 'Password Changed!',
         description: 'You can now log in with your new password.',

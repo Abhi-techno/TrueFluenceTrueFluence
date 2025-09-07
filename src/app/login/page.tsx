@@ -37,12 +37,12 @@ export default function LoginPage() {
     setIsLoading(true);
     const result = await login(values);
 
-    if (result.success) {
+    if (!result?.error) {
       toast({
         title: 'Logged In!',
         description: 'Welcome back!',
       });
-      router.push('/');
+      // The redirect is handled by the server action
     } else {
       toast({
         variant: 'destructive',
