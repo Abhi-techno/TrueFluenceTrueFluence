@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import {
   Home,
   MessageSquare,
-  DollarSign,
+  Search,
   Mail,
   User
 } from 'lucide-react';
@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 const navLinks = [
   { href: "/", label: "Home", icon: Home },
   { href: "/chat", label: "Chat", icon: MessageSquare },
-  { href: "/#pricing", label: "Pricing", icon: DollarSign },
+  { href: "/find", label: "Find", icon: Search },
   { href: "/profile", label: "Profile", icon: User },
   { href: "/contact", label: "Contact", icon: Mail },
 ];
