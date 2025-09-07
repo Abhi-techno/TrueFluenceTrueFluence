@@ -53,53 +53,49 @@ export default function ForgotPasswordPage() {
 
   async function onEmailSubmit(values: EmailFormValues) {
     setIsLoading(true);
-    try {
-        // We will optimistically try to send the email.
-        // The server action will handle cases where the user does not exist.
-        const result = await sendPasswordResetEmail(values.email);
+    // This server action will send the recovery email.
+    // It is designed to not throw an error if the user doesn't exist to prevent email enumeration.
+    const result = await sendPasswordResetEmail(values.email);
 
-        if (result.success) {
-            // We need the user ID for the next step.
-            // We can get it now. If the user doesn't exist, this will throw.
-             try {
-                const users = await account.listUsers(values.email);
-                if (users.total > 0) {
-                    setUserId(users.users[0].$id);
-                    setUserEmail(values.email);
-                    toast({
-                        title: 'Recovery Email Sent',
-                        description: 'Check your email for the recovery code.',
-                    });
-                    setStep(2);
-                } else {
-                     toast({
-                        title: 'Recovery Email Sent',
-                        description: 'If an account exists for this email, you will receive a recovery code.',
-                    });
-                }
-             } catch (e) {
-                 // Even if it fails, show a generic message to prevent user enumeration
-                 toast({
+    if (result.success) {
+        // Now, we try to get the user ID on the client.
+        // This is safe because we only proceed if an email was likely sent.
+        // If the user doesn't exist, this will fail, and we can show a generic message.
+        try {
+            const users = await account.listUsers(values.email);
+            if (users.total > 0) {
+                setUserId(users.users[0].$id);
+                setUserEmail(values.email);
+                toast({
+                    title: 'Recovery Email Sent',
+                    description: 'Check your email for the recovery code.',
+                });
+                setStep(2); // Move to the next step
+            } else {
+                // Should not happen if sendPasswordResetEmail is configured correctly on the backend,
+                // but we handle it just in case.
+                toast({
                     title: 'Recovery Email Sent',
                     description: 'If an account exists for this email, you will receive a recovery code.',
                 });
-             }
-        } else {
+            }
+        } catch (e) {
+            // This catch block handles the case where the user does not exist.
+            // We still show a generic success message to prevent user enumeration.
             toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: result.error,
+                title: 'Recovery Email Sent',
+                description: 'If an account exists for this email, you will receive a recovery code.',
             });
+             // We don't move to step 2 because there's no user to reset the password for.
         }
-    } catch(e: any) {
+    } else {
         toast({
             variant: 'destructive',
             title: 'Error',
-            description: e.message,
+            description: result.error,
         });
-    } finally {
-        setIsLoading(false);
     }
+    setIsLoading(false);
   }
 
   async function onResetSubmit(values: ResetFormValues) {
@@ -172,7 +168,7 @@ export default function ForgotPasswordPage() {
                   name="otp"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Recovery Code (OTP)</FormLabel>
+                      <FormLabel>Recovery Code (from Email)</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter the code from your email" {...field} disabled={isLoading} />
                       </FormControl>

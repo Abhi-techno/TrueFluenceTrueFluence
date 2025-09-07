@@ -23,7 +23,7 @@ export async function signup(formData: {name: string, email: string, password: s
       formData.name
     );
 
-    // Create a token for email verification
+    // Create a token for email verification (OTP)
     const token = await account.createEmailToken(newUser.$id, formData.email);
       
     return { success: true, userId: newUser.$id };
@@ -79,14 +79,14 @@ export async function logout() {
 export async function sendPasswordResetEmail(email: string): Promise<{ success: boolean; error?: string }> {
   try {
     const { account } = await createAdminClient();
-    // The URL is required but we won't use it, as we are doing an in-app OTP flow
-    await account.createRecovery(email, `${process.env.NEXT_PUBLIC_APP_URL}/reset`);
+    // The URL is required but we won't use it, as our UI is in-app.
+    // The secret token sent in the email will be used as the OTP.
+    await account.createRecovery(email, `${process.env.NEXT_PUBLIC_APP_URL}/login`);
     return { success: true };
   } catch (e: any) {
-    // Appwrite throws an error if user is not found, which is what we want.
-    // We don't want to reveal if an email is registered or not.
+    // Appwrite throws an error if user is not found. 
+    // We catch it and return a generic success message to prevent user enumeration.
     if (e.code === 404) {
-      // We can return a generic success message to prevent user enumeration
       return { success: true };
     }
     return { success: false, error: e.message };
@@ -103,6 +103,7 @@ export async function resetPassword(formData: {
     await account.updateRecovery(
       formData.userId,
       formData.secret,
+      formData.passwordNew,
       formData.passwordNew
     );
     return { success: true };
