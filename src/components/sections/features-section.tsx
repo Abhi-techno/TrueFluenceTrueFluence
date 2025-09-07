@@ -26,8 +26,8 @@ export function FeaturesSection() {
           {coreFeatures.map((feature, index) => (
             <Card 
               key={feature.title} 
-              className="text-center p-6 bg-card/80 backdrop-blur-sm border-border/20 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-2 group animate-fade-in-up"
-              style={{ animationDelay: `${index * 150}ms` }}
+              className="text-center p-6 bg-card border hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-2 group animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardHeader className="flex flex-col items-center p-0 mb-4">
                 <div className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:scale-110 duration-300">

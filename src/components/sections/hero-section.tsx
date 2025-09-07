@@ -10,8 +10,8 @@ export function HeroSection() {
         <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(hsl(var(--primary)/0.1)_1px,transparent_1px)] [background-size:32px_32px]"></div>
         
         <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
-          <div className="flex flex-col items-center space-y-6 animate-fade-in-up">
-            <Badge variant="outline" className="py-2 px-4 rounded-full text-sm border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+          <div className="flex flex-col items-center space-y-6 animate-fade-in-down">
+            <Badge variant="outline" className="py-2 px-4 rounded-full text-sm border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 transition-all shadow-sm">
               AI-Powered Influencer Marketing
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-muted-foreground">
@@ -22,7 +22,7 @@ export function HeroSection() {
               Transparent, secure, and efficient collaborations for real results.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Button asChild size="lg" className="w-full sm:w-auto group/hero">
+              <Button asChild size="lg" className="w-full sm:w-auto group/hero shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
                 <Link href="#">
                   I'm a Brand
                   <ArrowRight className="transition-transform duration-300 group-hover/hero:translate-x-1" />
@@ -33,7 +33,7 @@ export function HeroSection() {
               </Button>
             </div>
           </div>
-          <div className="mt-12 lg:mt-20" style={{ animationDelay: '300ms' }}>
+          <div className="mt-12 lg:mt-20 animate-zoom-in" style={{ animationDelay: '300ms' }}>
             <div className="relative mx-auto max-w-6xl">
                 <div className="absolute -inset-4 rounded-xl bg-gradient-to-tr from-primary/10 to-accent/10 blur-xl opacity-60"></div>
                 <Image

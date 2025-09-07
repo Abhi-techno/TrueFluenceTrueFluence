@@ -21,15 +21,15 @@ export function SolutionSection() {
     return (
         <section id="solution" className="w-full py-12 md:py-24 lg:py-32 bg-background">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
                     <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">The Solution</div>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">A Trust-First Ecosystem</h2>
                     <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                         TrueFluence empowers both sides of the collaboration with powerful, easy-to-use tools.
                     </p>
                 </div>
-                <Tabs defaultValue="brands" className="w-full max-w-4xl mx-auto" style={{ animationDelay: '300ms' }}>
-                    <TabsList className="grid w-full grid-cols-2 h-12 bg-secondary rounded-xl">
+                <Tabs defaultValue="brands" className="w-full max-w-4xl mx-auto animate-zoom-in" style={{ animationDelay: '300ms' }}>
+                    <TabsList className="grid w-full grid-cols-2 h-12 bg-secondary rounded-xl shadow-inner">
                         <TabsTrigger value="brands" className="text-base rounded-lg">For Brands</TabsTrigger>
                         <TabsTrigger value="influencers" className="text-base rounded-lg">For Influencers</TabsTrigger>
                     </TabsList>

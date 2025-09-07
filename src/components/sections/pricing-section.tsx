@@ -45,7 +45,7 @@ export function PricingSection() {
                     {tiers.map((tier, index) => (
                         <Card 
                             key={tier.name} 
-                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/10 -translate-y-4 bg-card' : 'bg-card/80 backdrop-blur-sm border-border/20 hover:border-primary/40 hover:-translate-y-2'}`}
+                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 -translate-y-4 bg-card' : 'bg-card border hover:border-primary/40 hover:-translate-y-2 hover:shadow-xl'}`}
                             style={{ animationDelay: `${index * 150}ms` }}
                         >
                             <CardHeader className="p-6">
@@ -58,7 +58,7 @@ export function PricingSection() {
                                 </div>
                                 <CardDescription className="pt-1 h-12">{tier.description}</CardDescription>
                             </CardHeader>
-                            <CardContent className="flex-grow p-6 border-t border-b border-border/20">
+                            <CardContent className="flex-grow p-6 border-t border-b">
                                 <ul className="space-y-3">
                                     {tier.features.map((feature, index) => (
                                         <li key={index} className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export function PricingSection() {
                                 </ul>
                             </CardContent>
                             <CardFooter className="p-6 mt-auto">
-                                <Button className="w-full" variant={tier.isPopular ? 'default' : 'outline'}>
+                                <Button className={`w-full ${tier.isPopular ? 'shadow-lg shadow-primary/20' : ''}`} variant={tier.isPopular ? 'default' : 'outline'}>
                                     Get Started
                                 </Button>
                             </CardFooter>

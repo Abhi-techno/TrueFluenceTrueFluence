@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot, IndianRupee, EyeOff, ShieldAlert, Users } from "lucide-react";
 
 const problems = [
@@ -31,7 +31,7 @@ const problems = [
 
 export function ProblemsSection() {
   return (
-    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/30">
+    <section id="problems" className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
           <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">The Problem</div>
@@ -40,16 +40,20 @@ export function ProblemsSection() {
             Despite its potential, the industry is plagued by issues of trust, transparency, and accessibility.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {problems.map((problem, index) => (
             <Card 
               key={problem.title} 
-              className="flex flex-col items-start p-6 text-left bg-card/80 backdrop-blur-sm border-border/20 hover:border-primary/40 transition-all duration-300 group animate-fade-in-up"
-              style={{ animationDelay: `${index * 150}ms` }}
+              className="flex flex-col items-start p-6 text-left bg-card border hover:border-primary/40 transition-all duration-300 group animate-fade-in-up hover:shadow-lg hover:-translate-y-1"
+              style={{ animationDelay: `${index * 100}ms` }}
               >
-              <div className="mb-4 p-3 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
-              <h3 className="text-xl font-semibold mb-2 text-foreground">{problem.title}</h3>
-              <p className="text-muted-foreground">{problem.description}</p>
+              <CardHeader className="p-0 mb-4">
+                <div className="p-3 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
+              </CardHeader>
+              <CardContent className="p-0">
+                <CardTitle className="text-xl mb-2 text-foreground">{problem.title}</CardTitle>
+                <p className="text-muted-foreground">{problem.description}</p>
+              </CardContent>
             </Card>
           ))}
         </div>
