@@ -11,14 +11,15 @@ export async function sendResetOtp(email: string): Promise<{ success: boolean; e
     
     // Check if user exists
     try {
-        await users.list([ID.custom(email)]);
-    } catch (e) {
-         // Appwrite throws if user is not found, which is expected in some cases.
-         // We'll return a generic success message to prevent user enumeration.
-        if ((e as AppwriteException).code === 404 || (e as AppwriteException).code === 400) {
-             return { success: true }; // Pretend success
+        const userList = await users.list([Query.equal('email', [email])]);
+        if (userList.total === 0) {
+            // To prevent user enumeration, we return success even if the email is not found.
+            return { success: true };
         }
-        throw e; // Re-throw other errors
+    } catch (e: any) {
+        // If there's an error listing users, still pretend success to not leak info.
+        console.error("Error checking for user:", e);
+        return { success: true };
     }
 
     // Generate a 6-digit OTP
@@ -28,14 +29,12 @@ export async function sendResetOtp(email: string): Promise<{ success: boolean; e
     await storeOtp(email, otp);
 
     // Send the OTP via email using createEmailToken as a transport mechanism
-    // The user will receive an email containing this token.
-    // **IMPORTANT**: The Appwrite email template for "Password Reset" MUST be
-    // configured to display the {{token}} directly.
+    // The Appwrite email template for "Password Reset" MUST be configured to display the {{token}}.
     await account.createToken(ID.unique(), email, ['password-reset'], `Your password reset OTP is: ${otp}`);
     
     return { success: true };
   } catch (e: any) {
-    console.error(e);
+    console.error("Failed to send OTP:", e);
     // Generic error to avoid leaking information
     return { success: false, error: 'An unexpected error occurred. Please try again.' };
   }
@@ -47,18 +46,17 @@ export async function verifyResetOtp(email: string, otp: string): Promise<{ succ
     const storedOtpDoc = await getOtp(email, otp);
 
     if (!storedOtpDoc) {
-      return { success: false, error: 'Invalid OTP.' };
+      return { success: false, error: 'Invalid or expired OTP. Please try again.' };
     }
 
     if (Date.now() > storedOtpDoc.expiresAt) {
-      // Clean up expired OTP
       await deleteOtp(storedOtpDoc.$id);
       return { success: false, error: 'OTP has expired. Please request a new one.' };
     }
 
     return { success: true };
   } catch (e: any) {
-    console.error(e);
+    console.error("Failed to verify OTP:", e);
     return { success: false, error: 'An unexpected error occurred.' };
   }
 }
@@ -70,16 +68,16 @@ export async function updatePasswordWithOtp(
     newPassword: string
 ): Promise<{ success: boolean; error?: string }> {
     try {
-        const { account, users } = createAdminClient();
-        
         // First, re-verify the OTP to make sure it's still valid
         const storedOtpDoc = await getOtp(email, otp);
         if (!storedOtpDoc || Date.now() > storedOtpDoc.expiresAt) {
             return { success: false, error: 'Invalid or expired OTP. Please restart the process.' };
         }
 
+        const { users } = createAdminClient();
+        
         // Get user to update password
-        const userList = await users.list([ID.custom(email)]);
+        const userList = await users.list([Query.equal('email', [email])]);
         if (userList.total === 0) {
             return { success: false, error: "User not found." };
         }
@@ -96,7 +94,7 @@ export async function updatePasswordWithOtp(
 
         return { success: true };
     } catch (e: any) {
-        console.error(e);
+        console.error("Failed to reset password:", e);
         return { success: false, error: 'Failed to reset password. Please try again.' };
     }
 }

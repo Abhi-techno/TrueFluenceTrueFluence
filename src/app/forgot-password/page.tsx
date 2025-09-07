@@ -80,6 +80,7 @@ export default function ForgotPasswordPage() {
         setStep('reset');
     } else {
         toast({ variant: 'destructive', title: 'Verification Failed', description: result.error });
+        otpForm.setError('otp', { type: 'manual', message: result.error || 'Invalid OTP.' });
     }
   }
 

@@ -1,6 +1,6 @@
 'use server';
 
-import { Databases, ID, Query } from 'node-appwrite';
+import { Databases, ID, Query, AppwriteException } from 'node-appwrite';
 import { createAdminClient } from './appwrite-server';
 
 const OTP_DB_ID = '68c8a7c6b98bb3c8a9c2';
@@ -17,19 +17,16 @@ async function getDatabases() {
   return databases;
 }
 
-export async function setupOtpDatabase() {
+// Sets up the database and collection if they don't exist
+async function setupOtpDatabase() {
     const db = await getDatabases();
     try {
         await db.get(OTP_DB_ID);
-    } catch (e) {
-        // If DB doesn't exist, create it.
-        if ((e as any).code === 404) {
+    } catch (e: any) {
+        if (e.code === 404) {
+            // If DB doesn't exist, create it and the collection.
             await db.create(OTP_DB_ID, 'TrueFluenceDB');
-            await db.createCollection(
-                OTP_DB_ID,
-                OTP_COLLECTION_ID,
-                'otps',
-            );
+            await db.createCollection(OTP_DB_ID, OTP_COLLECTION_ID, 'otps');
 
             // Add attributes to the collection
             await db.createStringAttribute(OTP_DB_ID, OTP_COLLECTION_ID, 'email', 255, true);
@@ -38,13 +35,15 @@ export async function setupOtpDatabase() {
 
             // Add indexes for querying
             await db.createIndex(OTP_DB_ID, OTP_COLLECTION_ID, 'email_index', 'key', ['email'], ['ASC']);
-
+             await db.createIndex(OTP_DB_ID, OTP_COLLECTION_ID, 'otp_index', 'key', ['otp'], ['ASC']);
         } else {
+            // Rethrow other errors
             throw e;
         }
     }
 }
 
+// Stores an OTP with an email and expiry time
 export async function storeOtp(email: string, otp: string): Promise<void> {
     await setupOtpDatabase();
     const db = await getDatabases();
@@ -62,6 +61,7 @@ export async function storeOtp(email: string, otp: string): Promise<void> {
     );
 }
 
+// Retrieves a valid OTP document
 export async function getOtp(email: string, otp: string) {
     const db = await getDatabases();
     try {
@@ -77,16 +77,20 @@ export async function getOtp(email: string, otp: string) {
         }
         return null;
     } catch (e) {
+        // This might happen if the collection/db is not ready, which is unlikely
+        // after setupOtpDatabase call.
         console.error("Error fetching OTP:", e);
         return null;
     }
 }
 
+// Deletes an OTP document after use
 export async function deleteOtp(documentId: string) {
     const db = await getDatabases();
     try {
         await db.deleteDocument(OTP_DB_ID, OTP_COLLECTION_ID, documentId);
     } catch (e) {
+        // It's not critical if this fails, so just log the error.
         console.error("Error deleting OTP:", e);
     }
 }
