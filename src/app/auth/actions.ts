@@ -36,6 +36,7 @@ export async function verifyOtp(userId: string, secret: string): Promise<FormSta
     try {
         const { account } = await createAdminClient();
         
+        // This will verify the token and log the user in
         const session = await account.createSession(userId, secret);
 
         cookies().set('appwrite-session', session.secret, {
@@ -46,12 +47,11 @@ export async function verifyOtp(userId: string, secret: string): Promise<FormSta
           expires: new Date(session.expire),
         });
 
-        return { success: true, userId };
+        redirect('/');
     } catch (e: any) {
         return { success: false, error: e.message };
     }
 }
-
 
 export async function login(formData: {email: string, password: string }): Promise<FormState> {
   try {
@@ -72,5 +72,41 @@ export async function logout() {
     await account.deleteSession('current');
   } catch (e: any) {
     // Fail silently
+  }
+  redirect('/login');
+}
+
+export async function sendPasswordResetEmail(email: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { account } = await createAdminClient();
+    // The URL is required but we won't use it, as we are doing an in-app OTP flow
+    await account.createRecovery(email, `${process.env.NEXT_PUBLIC_APP_URL}/reset`);
+    return { success: true };
+  } catch (e: any) {
+    // Appwrite throws an error if user is not found, which is what we want.
+    // We don't want to reveal if an email is registered or not.
+    if (e.code === 404) {
+      // We can return a generic success message to prevent user enumeration
+      return { success: true };
+    }
+    return { success: false, error: e.message };
+  }
+}
+
+export async function resetPassword(formData: {
+  userId: string;
+  secret: string;
+  passwordNew: string;
+}): Promise<{ success: boolean; error?: string }> {
+  try {
+    const { account } = await createAdminClient();
+    await account.updateRecovery(
+      formData.userId,
+      formData.secret,
+      formData.passwordNew
+    );
+    return { success: true };
+  } catch (e: any) {
+    return { success: false, error: e.message };
   }
 }

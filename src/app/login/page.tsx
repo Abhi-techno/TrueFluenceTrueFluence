@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { login } from '@/app/auth/actions';
+import { Eye, EyeOff } from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -22,6 +23,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -80,12 +82,35 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="Enter your password" {...field} disabled={isLoading} />
+                      <div className="relative">
+                        <Input 
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Enter your password" 
+                          {...field} 
+                          disabled={isLoading} 
+                          className="pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                          aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                          {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+               <div className="text-right">
+                  <Link href="/forgot-password" passHref>
+                    <span className="text-sm text-primary hover:underline">
+                      Forgot Password?
+                    </span>
+                  </Link>
+              </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? 'Logging In...' : 'Log In'}
               </Button>

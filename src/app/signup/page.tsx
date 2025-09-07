@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,6 +13,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { signup, verifyOtp } from '@/app/auth/actions';
+import { Eye, EyeOff } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -27,11 +29,35 @@ export default function SignupPage() {
   const [showOtpDialog, setShowOtpDialog] = useState(false);
   const [otp, setOtp] = useState('');
   const [userId, setUserId] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { name: '', email: '', password: '' },
   });
+
+  const password = form.watch('password');
+
+  const passwordStrength = useMemo(() => {
+    let score = 0;
+    if (password.length > 8) score++;
+    if (/\d/.test(password)) score++;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+    if (/[^a-zA-Z0-9]/.test(password)) score++;
+    return score;
+  }, [password]);
+
+  const strengthColor = useMemo(() => {
+    switch(passwordStrength) {
+      case 0:
+      case 1: return 'bg-destructive';
+      case 2: return 'bg-yellow-500';
+      case 3: return 'bg-blue-500';
+      case 4: return 'bg-green-500';
+      default: return 'bg-destructive';
+    }
+  }, [passwordStrength]);
+
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -55,7 +81,7 @@ export default function SignupPage() {
   }
 
   async function handleVerifyOtp() {
-    if (!userId || otp.length < 6) {
+    if (!userId || otp.length === 0) {
       return toast({
         variant: 'destructive',
         title: 'Invalid OTP',
@@ -64,21 +90,20 @@ export default function SignupPage() {
     }
     setIsLoading(true);
     const result = await verifyOtp(userId, otp);
-    setIsLoading(false);
 
-    if (result.success) {
+    if (result && result.success) {
       toast({
         title: 'Account Verified!',
         description: 'Welcome! You have been logged in.',
       });
       setShowOtpDialog(false);
       router.push('/');
-      router.refresh(); // To update auth state
     } else {
+      setIsLoading(false);
       toast({
         variant: 'destructive',
         title: 'Verification Failed',
-        description: result.error,
+        description: result ? result.error : 'An unknown error occurred.',
       });
     }
   }
@@ -126,8 +151,32 @@ export default function SignupPage() {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Enter your password" {...field} disabled={isLoading} />
+                         <div className="relative">
+                          <Input 
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Enter your password" 
+                            {...field} 
+                            disabled={isLoading}
+                            className="pr-10"
+                           />
+                           <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                              aria-label={showPassword ? "Hide password" : "Show password"}
+                           >
+                            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                          </button>
+                         </div>
                       </FormControl>
+                      {password.length > 0 && (
+                        <div className="mt-2 space-y-1">
+                          <Progress value={passwordStrength * 25} className={`h-1.5 [&>*]:transition-all [&>*]:duration-300 ${strengthColor}`} />
+                           <p className="text-xs text-muted-foreground">
+                            {['Weak', 'Fair', 'Good', 'Strong'][passwordStrength - 1]}
+                          </p>
+                        </div>
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}
