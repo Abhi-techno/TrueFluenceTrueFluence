@@ -24,14 +24,12 @@ export async function signup(formData: {name: string, email: string, password: s
       formData.name
     );
 
-    // Create email verification token (OTP)
-    const token = await account.createEmailToken(
+    // Create email verification token
+    await account.createEmailToken(
         newUser.$id,
         formData.email
     );
       
-    console.log('Email token created:', token);
-
     return { success: true, userId: newUser.$id };
   } catch (e: any) {
     return { success: false, error: e.message };
@@ -41,14 +39,21 @@ export async function signup(formData: {name: string, email: string, password: s
 export async function verifyEmail(userId: string, secret: string): Promise<FormState> {
     try {
         const { account } = await createAdminClient();
-        // Use the secret from the OTP as the user's password to create a session
-        const session = await account.createSession(userId, secret);
         
-        const sessionClient = await createSessionClient(cookies());
+        // Verify the token, which also logs the user in
+        const session = await account.updateEmailVerification(userId, secret);
+
+        // Set the session cookie
         cookies().set(
-            sessionClient.client.config.sessionName,
+            'appwrite-session',
             session.secret,
-            sessionClient.client.config.sessionOptions
+            {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'strict',
+                maxAge: 60 * 60 * 24 * 30, // 30 days
+                path: '/',
+            }
         );
 
         return { success: true, userId };
