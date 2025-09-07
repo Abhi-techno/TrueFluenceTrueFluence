@@ -5,9 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Home,
-  Compass,
+  MessageSquare,
   DollarSign,
-  Shield,
   Mail,
   User
 } from 'lucide-react';
@@ -15,7 +14,7 @@ import { cn } from '@/lib/utils';
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/#features", label: "Features", icon: Compass },
+  { href: "/chat", label: "Chat", icon: MessageSquare },
   { href: "/#pricing", label: "Pricing", icon: DollarSign },
   { href: "/profile", label: "Profile", icon: User },
   { href: "/contact", label: "Contact", icon: Mail },
