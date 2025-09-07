@@ -6,10 +6,20 @@ import { SecuritySection } from "@/components/sections/security-section";
 import { PricingSection } from "@/components/sections/pricing-section";
 import { CtaSection } from "@/components/sections/cta-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
+import { useSidebar } from "@/hooks/use-sidebar";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
+  const { isExpanded } = useSidebar();
+  
   return (
-    <div className="flex flex-col min-h-[100dvh]">
+    <div 
+      className={cn(
+        "flex flex-col min-h-[100dvh]",
+        isExpanded ? 'lg:pl-64' : 'lg:pl-20',
+        'transition-[padding-left] duration-300 ease-in-out'
+      )}
+    >
       <HeroSection />
       <ProblemsSection />
       <SolutionSection />

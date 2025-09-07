@@ -1,12 +1,18 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useSidebar } from "@/hooks/use-sidebar";
+import { cn } from "@/lib/utils";
 
 export default function ContactPage() {
+  const { isExpanded } = useSidebar();
+  
   return (
-    <div className="bg-background text-foreground">
+    <div className={cn("bg-background text-foreground", isExpanded ? 'lg:pl-64' : 'lg:pl-20', 'transition-[padding-left] duration-300 ease-in-out')}>
       <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
