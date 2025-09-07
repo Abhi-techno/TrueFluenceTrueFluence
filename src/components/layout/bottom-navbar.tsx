@@ -33,8 +33,8 @@ const BottomNavbar = () => {
                             <li key={link.href}>
                                 <Link href={link.href}>
                                     <div className={cn(
-                                        'flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-colors w-16 group',
-                                        isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                                        'flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all duration-300 w-16 group',
+                                        isActive ? 'text-primary scale-110' : 'text-muted-foreground hover:text-foreground'
                                     )}>
                                         <link.icon className={cn("h-6 w-6 transition-transform", isActive ? "scale-110" : "group-hover:scale-125")} />
                                         <span className="text-xs font-medium">

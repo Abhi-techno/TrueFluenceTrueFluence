@@ -15,8 +15,8 @@ export default function ChatPage() {
             <AvatarImage src="https://picsum.photos/100?random=4" alt="Bot" data-ai-hint="logo robot" />
             <AvatarFallback>AI</AvatarFallback>
           </Avatar>
-          <div className="bg-secondary p-3 rounded-lg rounded-tl-none max-w-xs">
-            <p className="font-semibold text-sm mb-1">TrueFluence Bot</p>
+          <div className="bg-secondary p-3 rounded-lg rounded-tl-none max-w-xs shadow-md">
+            <p className="font-semibold text-sm mb-1 text-primary">TrueFluence Bot</p>
             <p className="text-sm">
               Welcome to the chat! How can I help you find the perfect influencer today?
             </p>
@@ -24,7 +24,7 @@ export default function ChatPage() {
         </div>
 
         <div className="flex items-start gap-3 justify-end animate-fade-in-up" style={{animationDelay: "150ms"}}>
-            <div className="bg-primary text-primary-foreground p-3 rounded-lg rounded-tr-none max-w-xs">
+            <div className="bg-primary text-primary-foreground p-3 rounded-lg rounded-tr-none max-w-xs shadow-md">
                 <p className="text-sm">
                     I'm looking for a fashion influencer in Mumbai with over 50k followers.
                 </p>
@@ -33,6 +33,19 @@ export default function ChatPage() {
             <AvatarImage src="https://picsum.photos/100?random=5" alt="User" data-ai-hint="user portrait" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
+        </div>
+
+        <div className="flex items-start gap-3 animate-fade-in-up" style={{animationDelay: "300ms"}}>
+          <Avatar className="h-10 w-10 border-2 border-primary">
+            <AvatarImage src="https://picsum.photos/100?random=4" alt="Bot" data-ai-hint="logo robot" />
+            <AvatarFallback>AI</AvatarFallback>
+          </Avatar>
+          <div className="bg-secondary p-3 rounded-lg rounded-tl-none max-w-xs shadow-md">
+            <p className="font-semibold text-sm mb-1 text-primary">TrueFluence Bot</p>
+            <p className="text-sm">
+              Great! I can help with that. Are you looking for male or female influencers, and do you have a specific engagement rate in mind?
+            </p>
+          </div>
         </div>
 
       </div>

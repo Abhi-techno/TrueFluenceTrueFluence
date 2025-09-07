@@ -23,7 +23,7 @@ export default function ContactPage() {
       <section className="w-full pb-12">
         <div className="container mx-auto px-4">
           <div className="grid gap-10">
-            <Card className="bg-secondary/30 border-secondary animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+            <Card className="bg-card border border-border/50 animate-fade-in-up shadow-lg" style={{ animationDelay: '300ms' }}>
               <CardHeader>
                 <CardTitle>Contact Form</CardTitle>
               </CardHeader>
@@ -42,7 +42,7 @@ export default function ContactPage() {
             </Card>
 
             <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: '450ms' }}>
-              <Card className="bg-secondary/30 border-secondary">
+              <Card className="bg-card border border-border/50 shadow-lg">
                 <CardHeader>
                   <CardTitle>Our Office</CardTitle>
                 </CardHeader>
