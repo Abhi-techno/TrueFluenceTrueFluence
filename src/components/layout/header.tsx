@@ -35,32 +35,34 @@ const Header = () => {
         isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : ""
       )}
     >
-      <div className="container mx-auto flex h-24 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="z-20" onClick={() => setIsMenuOpen(false)}>
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+        <Link href="/" className="z-50" onClick={() => setIsMenuOpen(false)}>
           <Logo />
         </Link>
         
-        <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-            <nav className="flex items-center gap-2 rounded-full bg-background/50 backdrop-blur-xl border border-border/30 shadow-lg p-2">
-            {navLinks.map((link) => (
-                <Link
-                key={link.label}
-                href={link.href}
-                className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground px-4 py-2 rounded-full hover:bg-background/70"
-                >
-                {link.label}
-                </Link>
-            ))}
-            </nav>
-        </div>
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-        <div className="hidden md:flex items-center gap-2 z-20">
+        <div className="hidden md:flex items-center gap-2 z-50">
           <ThemeSwitcher />
-          <Button variant="ghost" className="text-foreground/80 hover:text-foreground">Log In</Button>
-          <Button className="rounded-full">Sign Up</Button>
+          <Button variant="ghost" asChild>
+            <Link href="#">Log In</Link>
+          </Button>
+          <Button asChild>
+            <Link href="#">Sign Up</Link>
+          </Button>
         </div>
 
-        <div className="md:hidden flex items-center gap-2">
+        <div className="md:hidden flex items-center gap-2 z-50">
           <ThemeSwitcher />
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -68,8 +70,12 @@ const Header = () => {
           </Button>
         </div>
       </div>
+
       {isMenuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 absolute top-full left-0 w-full">
+        <div 
+          className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 absolute top-full left-0 w-full z-40 animate-fade-in-down"
+          style={{animationDuration: '0.3s'}}
+        >
           <nav className="flex flex-col gap-4 p-6">
             {navLinks.map((link) => (
               <Link
@@ -81,8 +87,8 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
-            <div className="flex flex-col gap-4 pt-6 border-t border-border/50">
-                <Button variant="ghost" size="lg" className="w-full text-lg">Log In</Button>
+            <div className="flex flex-col gap-4 pt-6 mt-4 border-t border-border/50">
+                <Button variant="outline" size="lg" className="w-full text-lg">Log In</Button>
                 <Button size="lg" className="w-full text-lg">Sign Up</Button>
             </div>
           </nav>
