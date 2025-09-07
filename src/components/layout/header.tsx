@@ -31,29 +31,35 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300 bg-background/80 backdrop-blur-xl border-b border-border/50",
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : ""
       )}
     >
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        <Link href="/" onClick={() => setIsMenuOpen(false)}>
+      <div className="container mx-auto flex h-24 items-center justify-between px-4 md:px-6">
+        <Link href="/" className="z-20" onClick={() => setIsMenuOpen(false)}>
           <Logo />
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="hidden md:flex items-center gap-2">
+        
+        <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
+            <nav className="flex items-center gap-2 rounded-full bg-background/50 backdrop-blur-xl border border-border/30 shadow-lg p-2">
+            {navLinks.map((link) => (
+                <Link
+                key={link.label}
+                href={link.href}
+                className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground px-4 py-2 rounded-full hover:bg-background/70"
+                >
+                {link.label}
+                </Link>
+            ))}
+            </nav>
+        </div>
+
+        <div className="hidden md:flex items-center gap-2 z-20">
           <ThemeSwitcher />
           <Button variant="ghost" className="text-foreground/80 hover:text-foreground">Log In</Button>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">Sign Up</Button>
+          <Button className="rounded-full">Sign Up</Button>
         </div>
+
         <div className="md:hidden flex items-center gap-2">
           <ThemeSwitcher />
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
