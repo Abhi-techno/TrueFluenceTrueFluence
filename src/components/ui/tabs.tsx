@@ -33,6 +33,8 @@ const TabsList = React.forwardRef<
       width: activeTabElement.offsetWidth,
     });
   }, [activeTab]);
+  
+  const { onValueChange, ...rest } = props;
 
   return (
     <div className="relative">
@@ -49,8 +51,13 @@ const TabsList = React.forwardRef<
             "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground relative z-10 w-full",
             className
             )}
-            onValueChange={setActiveTab}
-            {...props}
+            onValueChange={(value) => {
+              setActiveTab(value);
+              if (onValueChange) {
+                onValueChange(value);
+              }
+            }}
+            {...rest}
         />
     </div>
   )
