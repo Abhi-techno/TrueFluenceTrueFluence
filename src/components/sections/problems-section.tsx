@@ -36,7 +36,7 @@ export function ProblemsSection() {
     <section id="problems" className="w-full py-12 bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12 animate-fade-in-up">
-          <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-accent">The Problem</div>
+          <div className="inline-block rounded-lg bg-accent/10 px-3 py-1 text-sm font-medium text-accent border border-accent/20">The Problem</div>
           <h2 className="text-3xl font-bold tracking-tighter">Influencer Marketing is Broken</h2>
           <p className="max-w-[900px] text-muted-foreground text-lg">
             The industry is plagued by issues of trust, transparency, and accessibility.
@@ -54,9 +54,10 @@ export function ProblemsSection() {
             {problems.map((problem, index) => (
               <CarouselItem key={index}>
                 <div className="p-1">
-                  <Card className="h-full bg-card border hover:border-accent/40 transition-all duration-300 group hover:shadow-lg hover:-translate-y-1">
-                    <CardContent className="flex flex-col items-center justify-center p-6 text-center aspect-square">
-                      <div className="p-4 bg-accent/10 rounded-full group-hover:bg-accent/20 transition-colors duration-300 mb-4">
+                  <Card className="h-full bg-card/80 border hover:border-accent/40 transition-all duration-300 group hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-card to-secondary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <CardContent className="flex flex-col items-center justify-center p-6 text-center aspect-square relative">
+                      <div className="p-4 bg-accent/10 rounded-full group-hover:bg-accent/20 transition-colors duration-300 mb-4 animate-float" style={{ animationDelay: `${index * 150}ms` }}>
                         {React.cloneElement(problem.icon, { className: 'h-10 w-10 text-accent transition-transform group-hover:scale-110' })}
                       </div>
                       <CardTitle className="text-xl mb-1 text-foreground">{problem.title}</CardTitle>
@@ -67,8 +68,8 @@ export function ProblemsSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="-left-2" />
-          <CarouselNext className="-right-2" />
+          <CarouselPrevious className="-left-2 bg-background/80 hover:bg-secondary" />
+          <CarouselNext className="-right-2 bg-background/80 hover:bg-secondary" />
         </Carousel>
       </div>
     </section>
