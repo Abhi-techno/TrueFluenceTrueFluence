@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle, Star, Zap } from "lucide-react";
 
 const tiers = [
     {
@@ -8,7 +9,7 @@ const tiers = [
         price: "Free",
         description: "Get started and become visible to brands.",
         features: ["Verified Profile", "Basic Visibility", "Accept Collabs"],
-        isPopular: false,
+        highlight: null,
     },
     {
         name: "Pro",
@@ -17,7 +18,8 @@ const tiers = [
         priceSuffix: "/ month",
         description: "Unlock analytics and get a trust badge.",
         features: ["Everything in Basic", "Pro Verified Badge", "AI Growth Insights", "Enhanced Visibility"],
-        isPopular: true,
+        highlight: "Most Popular",
+        highlightIcon: <Star className="h-4 w-4" />,
     },
     {
         name: "Premium",
@@ -26,7 +28,8 @@ const tiers = [
         priceSuffix: "/ month",
         description: "For serious creators who want priority access.",
         features: ["Everything in Pro", "Premium Placement", "Priority Support", "Smart Pricing AI"],
-        isPopular: false,
+        highlight: "Best Value",
+        highlightIcon: <Zap className="h-4 w-4" />,
     }
 ];
 
@@ -45,12 +48,17 @@ export function PricingSection() {
                     {tiers.map((tier, index) => (
                         <Card 
                             key={tier.name} 
-                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up group ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 bg-card' : 'bg-card border hover:border-primary/40 hover:-translate-y-2 hover:shadow-xl'}`}
+                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up group ${tier.highlight ? 'border-accent border-2 shadow-2xl shadow-accent/20 bg-card' : 'bg-card border hover:border-primary/40 hover:-translate-y-2 hover:shadow-xl'}`}
                             style={{ animationDelay: `${index * 150}ms` }}
                         >
                             <CardHeader className="p-6">
-                                {tier.isPopular && <div className="text-xs font-semibold text-primary mb-2 tracking-widest uppercase">Most Popular</div>}
-                                <CardTitle className="text-2xl text-foreground">{tier.name}</CardTitle>
+                                {tier.highlight && (
+                                  <Badge variant="secondary" className="w-fit self-start bg-accent/10 text-accent border-accent/20">
+                                      {tier.highlightIcon}
+                                      <span>{tier.highlight}</span>
+                                  </Badge>
+                                )}
+                                <CardTitle className="text-2xl text-foreground pt-2">{tier.name}</CardTitle>
                                 <div className="flex items-baseline gap-1 pt-4 text-foreground">
                                     {tier.pricePrefix && <span className="text-2xl font-semibold">{tier.pricePrefix}</span>}
                                     <span className="text-4xl font-bold">{tier.price}</span>
@@ -69,7 +77,7 @@ export function PricingSection() {
                                 </ul>
                             </CardContent>
                             <CardFooter className="p-6 mt-auto">
-                                <Button className={`w-full ${tier.isPopular ? 'shadow-lg shadow-primary/20' : ''}`} variant={tier.isPopular ? 'default' : 'outline'}>
+                                <Button className={`w-full ${tier.highlight ? 'bg-accent hover:bg-accent/90 shadow-lg shadow-accent/20' : ''}`} variant={tier.highlight ? 'default' : 'outline'}>
                                     Get Started
                                 </Button>
                             </CardFooter>

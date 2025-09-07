@@ -19,7 +19,7 @@ export function CtaSection() {
                             Sign up today and transform your marketing.
                         </p>
                         <div className="flex flex-col items-center gap-4 mt-8 w-full">
-                            <Button asChild size="lg" className="w-full group/cta shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
+                            <Button asChild size="lg" className="w-full group/cta bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg shadow-accent/20 hover:shadow-accent/30 transition-shadow">
                                 <Link href="#">
                                     Get Started as a Brand
                                     <MoveRight className="transition-transform duration-300 group-hover/cta:translate-x-1" />

@@ -14,7 +14,7 @@ const coreFeatures = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="w-full py-12 bg-secondary/50">
+    <section id="features" className="w-full py-12 bg-background">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16 animate-fade-in-up">
           <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm font-medium text-primary">Core Features</div>

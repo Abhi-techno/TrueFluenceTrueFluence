@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 220 13% 95%; /* Light Gray (#F0F2F5) */
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 262.1 83.3% 57.8%;
+    --primary: 198.8 78.3% 52.5%; /* Vibrant Blue (#29ABE2) */
     --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 35.5 100% 50%; /* Bright Orange (#FF9800) */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 262.1 83.3% 57.8%;
+    --ring: 198.8 78.3% 52.5%;
     --radius: 0.75rem;
     --chart-1: 198.8 93.3% 49.2%;
     --chart-2: 33.6 92.5% 55.1%;
@@ -32,25 +32,25 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 222 47% 11%;
     --foreground: 0 0% 98%;
-    --card: 240 4% 10%;
+    --card: 222 47% 14%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 222 47% 11%;
     --popover-foreground: 0 0% 98%;
-    --primary: 262.1 83.3% 57.8%;
+    --primary: 198.8 78.3% 52.5%; /* Vibrant Blue (#29ABE2) */
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4% 16%;
+    --secondary: 217 33% 17%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 4% 16%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 35.5 100% 50%; /* Bright Orange (#FF9800) */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 262.1 83.3% 57.8%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 198.8 78.3% 52.5%;
     --chart-1: 198.8 93.3% 49.2%;
     --chart-2: 33.6 92.5% 55.1%;
     --chart-3: 300 80% 60%;

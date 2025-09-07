@@ -3,19 +3,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Verified, BrainCircuit, LayoutDashboard, Banknote, TrendingUp, Search, ShieldCheck, FileText, Landmark, LineChart } from "lucide-react";
 
 const influencerFeatures = [
-    { icon: <Verified className="h-6 w-6 text-primary" />, title: "Verified Identity & Social Proof", description: "AI-based profile scoring, KYC, and API integration with social platforms to prove your authenticity." },
-    { icon: <TrendingUp className="h-6 w-6 text-primary" />, title: "AI Growth Insights", description: "Track real-time audience engagement, authenticity, and content performance to grow your brand." },
-    { icon: <BrainCircuit className="h-6 w-6 text-primary" />, title: "Smart Pricing AI", description: "Get data-driven suggestions for fair pricing on posts, stories, reels, and collaborations." },
-    { icon: <LayoutDashboard className="h-6 w-6 text-primary" />, title: "Unified Campaign Manager", description: "Handle multiple brand deals, deliverables, and communications in one clean dashboard." },
-    { icon: <Banknote className="h-6 w-6 text-primary" />, title: "Guaranteed Earning Protection", description: "Our secure escrow system ensures you get paid on time, every time, after completing your work." },
+    { icon: <Verified className="h-6 w-6 text-primary" />, title: "Verified Identity & Social Proof", description: "AI-based profile scoring, KYC, and API integration to prove your authenticity." },
+    { icon: <TrendingUp className="h-6 w-6 text-primary" />, title: "AI Growth Insights", description: "Track real-time audience engagement, authenticity, and content performance." },
+    { icon: <BrainCircuit className="h-6 w-6 text-primary" />, title: "Smart Pricing AI", description: "Get data-driven suggestions for fair pricing on posts, stories, and reels." },
+    { icon: <LayoutDashboard className="h-6 w-6 text-primary" />, title: "Unified Campaign Manager", description: "Handle multiple brand deals and communications in one clean dashboard." },
+    { icon: <Banknote className="h-6 w-6 text-primary" />, title: "Guaranteed Earning Protection", description: "Our secure escrow system ensures you get paid on time, every time." },
 ];
 
 const brandFeatures = [
-    { icon: <Search className="h-6 w-6 text-primary" />, title: "AI-Powered Matchmaker", description: "Instantly find the perfect-fit influencers for your niche, audience size, budget, and goals." },
-    { icon: <ShieldCheck className="h-6 w-6 text-primary" />, title: "Advanced Fraud Detection", description: "Our AI filters out influencers with fake followers or inflated stats, ensuring genuine reach." },
-    { icon: <FileText className="h-6 w-6 text-primary" />, title: "Effortless Campaign Brief Tool", description: "Create detailed campaign objectives, deliverables, and timelines in minutes with our guided tool." },
-    { icon: <Landmark className="h-6 w-6 text-primary" />, title: "Secure Escrow & Digital Contracts", description: "Payment is held securely and released only after deliverables are met, eliminating financial risk." },
-    { icon: <LineChart className="h-6 w-6 text-primary" />, title: "Real-Time Performance Analytics", description: "Track your campaign's ROI with live data on reach, clicks, engagement, and conversions." },
+    { icon: <Search className="h-6 w-6 text-primary" />, title: "AI-Powered Matchmaker", description: "Instantly find the perfect-fit influencers for your niche, budget, and goals." },
+    { icon: <ShieldCheck className="h-6 w-6 text-primary" />, title: "Advanced Fraud Detection", description: "Our AI filters out influencers with fake followers or inflated stats." },
+    { icon: <FileText className="h-6 w-6 text-primary" />, title: "Effortless Campaign Brief Tool", description: "Create detailed campaign objectives and timelines in minutes." },
+    { icon: <Landmark className="h-6 w-6 text-primary" />, title: "Secure Escrow & Digital Contracts", description: "Payment is held securely and released only after deliverables are met." },
+    { icon: <LineChart className="h-6 w-6 text-primary" />, title: "Real-Time Performance Analytics", description: "Track your campaign's ROI with live data on reach, clicks, and conversions." },
 ];
 
 export function SolutionSection() {

@@ -12,24 +12,19 @@ export function HeroSection() {
         
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="flex flex-col items-center space-y-6 animate-fade-in-down">
-            <Badge variant="outline" className="py-2 px-4 rounded-full text-sm border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 transition-all shadow-sm">
-              AI-Powered Influencer Marketing
-            </Badge>
             <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-muted-foreground">
-              TrueFluence – Authentic Influence. Real Impact.
+              Authentic Influence. Real Impact.
             </h1>
             <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
-              The next-generation AI platform connecting brands with verified, authentic influencers.
-              Transparent, secure, and efficient collaborations for real results.
+              TrueFluence is the next-generation AI platform connecting brands with verified, authentic influencers.
             </p>
-            <div className="flex flex-col items-center gap-4 w-full">
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-sm mx-auto">
               <Button asChild size="lg" className="w-full group/hero shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
                 <Link href="#">
                   I'm a Brand
-                  <ArrowRight className="transition-transform duration-300 group-hover/hero:translate-x-1" />
                   </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="w-full bg-transparent border-primary/50 text-foreground hover:bg-primary/10 hover:text-primary-foreground">
+              <Button asChild size="lg" variant="outline" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground border-accent/50">
                 <Link href="#">I'm an Influencer</Link>
               </Button>
             </div>
