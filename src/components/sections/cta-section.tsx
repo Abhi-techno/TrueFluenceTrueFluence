@@ -18,7 +18,7 @@ export function CtaSection() {
                             Join the fastest-growing network of trusted brands and verified influencers.
                             Sign up today and transform your marketing.
                         </p>
-                        <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 mt-8 w-full sm:w-auto">
                             <Button asChild size="lg" className="w-full sm:w-auto group/cta shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
                                 <Link href="#">
                                     Get Started as a Brand

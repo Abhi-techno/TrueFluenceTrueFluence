@@ -7,10 +7,10 @@ import { Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary/20 border-t border-border/50">
+    <footer className="bg-secondary/20 border-t border-border/50 hidden lg:block">
       <div className="container mx-auto px-4 py-12 md:px-6">
-        <div className="grid gap-8 md:grid-cols-12">
-          <div className="md:col-span-4 flex flex-col gap-4">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-12">
+          <div className="col-span-full lg:col-span-4 flex flex-col gap-4">
             <Link href="/">
               <Logo />
             </Link>
@@ -24,7 +24,7 @@ const Footer = () => {
               <Link href="#" className="text-muted-foreground hover:text-primary"><Youtube size={20} /></Link>
             </div>
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-1 lg:col-span-2">
             <h3 className="font-semibold mb-4 text-foreground">Platform</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="#features" className="text-muted-foreground hover:text-primary">Features</Link></li>
@@ -33,7 +33,7 @@ const Footer = () => {
               <li><Link href="#pricing" className="text-muted-foreground hover:text-primary">Pricing</Link></li>
             </ul>
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-1 lg:col-span-2">
             <h3 className="font-semibold mb-4 text-foreground">Company</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="#" className="text-muted-foreground hover:text-primary">About Us</Link></li>
@@ -42,7 +42,7 @@ const Footer = () => {
               <li><Link href="#" className="text-muted-foreground hover:text-primary">Blog</Link></li>
             </ul>
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-1 lg:col-span-2">
             <h3 className="font-semibold mb-4 text-foreground">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="#" className="text-muted-foreground hover:text-primary">Terms of Service</Link></li>
@@ -50,7 +50,7 @@ const Footer = () => {
               <li><Link href="#" className="text-muted-foreground hover:text-primary">Cookie Policy</Link></li>
             </ul>
           </div>
-          <div className="md:col-span-2">
+          <div className="col-span-1 lg:col-span-2">
             <h3 className="font-semibold mb-4 text-foreground">Support</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="#" className="text-muted-foreground hover:text-primary">Help Center</Link></li>

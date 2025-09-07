@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
 import { cn } from "@/lib/utils";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -27,17 +26,11 @@ const Header = () => {
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        <div className="flex-1">
-          {/* Placeholder for potential left-aligned content */}
-        </div>
+        <Link href="/">
+          <Logo />
+        </Link>
 
-        <div className="flex-1 flex justify-center">
-            <Link href="/">
-              <Logo />
-            </Link>
-        </div>
-
-        <div className="flex-1 flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-2">
           <ThemeSwitcher />
         </div>
       </div>
