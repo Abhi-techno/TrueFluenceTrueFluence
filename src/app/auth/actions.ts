@@ -24,11 +24,10 @@ export async function signup(formData: {name: string, email: string, password: s
       formData.name
     );
 
-    // Create email verification token
-    await account.createEmailToken(
-        newUser.$id,
-        formData.email
-    );
+    // Create email verification link
+    // The URL should point to your app's verification page
+    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verification`;
+    await account.createVerification(verificationUrl);
       
     return { success: true, userId: newUser.$id };
   } catch (e: any) {
@@ -40,24 +39,8 @@ export async function verifyEmail(userId: string, secret: string): Promise<FormS
     try {
         const { account } = await createAdminClient();
         
-        // Verify the token
-        await account.updateEmailVerification(userId, secret);
-
-        // Create a session for the user
-        const session = await account.createSession(userId, secret);
-
-        // Set the session cookie
-        cookies().set(
-            'appwrite-session',
-            session.secret,
-            {
-                httpOnly: true,
-                secure: true,
-                sameSite: 'strict',
-                maxAge: 60 * 60 * 24 * 30, // 30 days
-                path: '/',
-            }
-        );
+        // Verify the token by calling updateVerification
+        await account.updateVerification(userId, secret);
 
         return { success: true, userId };
     } catch (e: any) {
@@ -73,7 +56,7 @@ export async function login(formData: {email: string, password: string }): Promi
       formData.email,
       formData.password
     );
-    return { success: true };
+    router.push('/');
   } catch (e: any) {
     return { success: false, error: e.message };
   }

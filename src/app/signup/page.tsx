@@ -1,25 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
-import { signup, verifyEmail } from '@/app/auth/actions';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import { OtpInput } from '@/components/ui/otp-input';
+import { signup } from '@/app/auth/actions';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -28,12 +20,9 @@ const formSchema = z.object({
 });
 
 export default function SignupPage() {
-  const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [showOtpDialog, setShowOtpDialog] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [otp, setOtp] = useState('');
+  const [showVerificationMessage, setShowVerificationMessage] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,13 +36,8 @@ export default function SignupPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     const result = await signup(values);
-    if (result.success && result.userId) {
-      setUserId(result.userId);
-      setShowOtpDialog(true);
-      toast({
-        title: 'OTP Sent!',
-        description: 'Check your email for the verification code.',
-      });
+    if (result.success) {
+      setShowVerificationMessage(true);
     } else {
       toast({
         variant: 'destructive',
@@ -63,36 +47,6 @@ export default function SignupPage() {
     }
     setIsLoading(false);
   }
-
-  const handleOtpVerify = async () => {
-    if (!userId || otp.length !== 6) {
-        toast({
-            variant: 'destructive',
-            title: 'Invalid OTP',
-            description: 'Please enter a valid 6-digit OTP.',
-        });
-      return;
-    }
-
-    setIsLoading(true);
-    const result = await verifyEmail(userId, otp);
-
-    if (result.success) {
-      toast({
-        title: 'Account Verified!',
-        description: 'You have been successfully signed up.',
-      });
-      router.push('/');
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Verification Failed',
-        description: result.error,
-      });
-    }
-    setIsLoading(false);
-    setShowOtpDialog(false);
-  };
 
   return (
     <>
@@ -158,20 +112,14 @@ export default function SignupPage() {
         </Card>
       </div>
 
-      <Dialog open={showOtpDialog} onOpenChange={setShowOtpDialog}>
+      <Dialog open={showVerificationMessage} onOpenChange={setShowVerificationMessage}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Enter Verification Code</DialogTitle>
+            <DialogTitle>Please Verify Your Email</DialogTitle>
             <DialogDescription>
-              We've sent a 6-digit code to your email. Please enter it below to verify your account. The code expires in 15 minutes.
+              We've sent a verification link to your email address. Please click the link to activate your account. You can close this window.
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <OtpInput numInputs={6} value={otp} onChange={setOtp} />
-          </div>
-          <Button onClick={handleOtpVerify} disabled={isLoading} className="w-full">
-            {isLoading ? 'Verifying...' : 'Verify & Sign Up'}
-          </Button>
         </DialogContent>
       </Dialog>
     </>
