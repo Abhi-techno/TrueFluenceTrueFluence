@@ -1,3 +1,4 @@
+import React from "react";
 import { ShieldCheck, Lock, Scale, Landmark, MessageCircle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
@@ -49,7 +50,7 @@ export function SecuritySection() {
                         >
                              <CardHeader className="p-0 mb-4">
                                 <div className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors duration-300">
-                                    {feature.icon}
+                                    {React.cloneElement(feature.icon, { className: 'h-8 w-8 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-6' })}
                                 </div>
                             </CardHeader>
                             <CardContent className="p-0">

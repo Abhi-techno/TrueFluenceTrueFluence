@@ -45,7 +45,7 @@ export function PricingSection() {
                     {tiers.map((tier, index) => (
                         <Card 
                             key={tier.name} 
-                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 bg-card' : 'bg-card border hover:border-primary/40 hover:-translate-y-2 hover:shadow-xl'}`}
+                            className={`flex flex-col rounded-xl transition-all duration-300 animate-fade-in-up group ${tier.isPopular ? 'border-primary border-2 shadow-2xl shadow-primary/20 bg-card' : 'bg-card border hover:border-primary/40 hover:-translate-y-2 hover:shadow-xl'}`}
                             style={{ animationDelay: `${index * 150}ms` }}
                         >
                             <CardHeader className="p-6">
@@ -60,9 +60,9 @@ export function PricingSection() {
                             </CardHeader>
                             <CardContent className="flex-grow p-6 border-t border-b">
                                 <ul className="space-y-3">
-                                    {tier.features.map((feature, index) => (
-                                        <li key={index} className="flex items-center gap-3">
-                                            <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                                    {tier.features.map((feature, fIndex) => (
+                                        <li key={fIndex} className="flex items-center gap-3">
+                                            <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 transition-transform duration-300 group-hover:scale-125" />
                                             <span className="text-sm text-muted-foreground">{feature}</span>
                                         </li>
                                     ))}

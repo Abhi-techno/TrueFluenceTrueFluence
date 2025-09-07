@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Verified, Search, FileText, Landmark, TrendingUp, BarChart, Layers } from "lucide-react";
 
@@ -34,7 +35,7 @@ export function FeaturesSection() {
                   className="p-4 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors mb-4 group-hover:scale-110 duration-300 animate-float"
                   style={{ animationDelay: `${index * 250}ms` }}
                 >
-                    {feature.icon}
+                    {React.cloneElement(feature.icon, { className: 'h-8 w-8 text-primary transition-transform group-hover:rotate-12' })}
                 </div>
                 <CardTitle className="text-foreground">{feature.title}</CardTitle>
               </CardHeader>

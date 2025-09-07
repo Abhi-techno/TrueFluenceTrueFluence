@@ -12,8 +12,8 @@ export default function ContactPage() {
       <section className="w-full py-12">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <h1 className="text-3xl font-bold tracking-tighter">Get in Touch</h1>
-            <p className="max-w-[900px] text-muted-foreground text-lg">
+            <h1 className="text-3xl font-bold tracking-tighter animate-fade-in-down">Get in Touch</h1>
+            <p className="max-w-[900px] text-muted-foreground text-lg animate-fade-in-up" style={{ animationDelay: '150ms' }}>
               Have a question or want to work with us? We'd love to hear from you.
             </p>
           </div>
@@ -23,7 +23,7 @@ export default function ContactPage() {
       <section className="w-full pb-12">
         <div className="container mx-auto px-4">
           <div className="grid gap-10">
-            <Card className="bg-secondary/30 border-secondary">
+            <Card className="bg-secondary/30 border-secondary animate-fade-in-up" style={{ animationDelay: '300ms' }}>
               <CardHeader>
                 <CardTitle>Contact Form</CardTitle>
               </CardHeader>
@@ -41,28 +41,28 @@ export default function ContactPage() {
               </CardContent>
             </Card>
 
-            <div className="space-y-8">
+            <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: '450ms' }}>
               <Card className="bg-secondary/30 border-secondary">
                 <CardHeader>
                   <CardTitle>Our Office</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-start gap-4">
-                    <MapPin className="h-6 w-6 text-primary mt-1" />
+                  <div className="flex items-start gap-4 group">
+                    <MapPin className="h-6 w-6 text-primary mt-1 transition-transform group-hover:scale-125" />
                     <div>
                       <p className="font-semibold">TrueFluence India</p>
                       <p className="text-muted-foreground">456 Tech Park, Koramangala<br/>Bengaluru, Karnataka 560095</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <Mail className="h-6 w-6 text-primary mt-1" />
+                  <div className="flex items-start gap-4 group">
+                    <Mail className="h-6 w-6 text-primary mt-1 transition-transform group-hover:scale-125" />
                     <div>
                       <p className="font-semibold">Email Us</p>
                       <p className="text-muted-foreground">contact@truefluence.in</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <Phone className="h-6 w-6 text-primary mt-1" />
+                  <div className="flex items-start gap-4 group">
+                    <Phone className="h-6 w-6 text-primary mt-1 transition-transform group-hover:scale-125" />
                     <div>
                       <p className="font-semibold">Call Us</p>
                       <p className="text-muted-foreground">+91 98765 43210</p>

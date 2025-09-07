@@ -1,3 +1,4 @@
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Verified, BrainCircuit, LayoutDashboard, Banknote, TrendingUp, Search, ShieldCheck, FileText, Landmark, LineChart } from "lucide-react";
 
@@ -36,8 +37,10 @@ export function SolutionSection() {
                     <TabsContent value="brands" className="mt-10 data-[state=active]:animate-fade-in-up" style={{ animationDuration: '600ms' }}>
                         <div className="grid gap-6">
                             {brandFeatures.map((feature, index) => (
-                                <div key={index} className="flex items-start gap-5 p-5 rounded-xl transition-all duration-300 hover:bg-secondary/60 animate-fade-in-up" style={{ animationDelay: `${index * 120}ms`, animationDuration: '500ms' }}>
-                                    <div className="flex-shrink-0 mt-1 p-3.5 bg-primary/10 rounded-full">{feature.icon}</div>
+                                <div key={index} className="flex items-start gap-5 p-5 rounded-xl transition-all duration-300 hover:bg-secondary/60 animate-fade-in-up group" style={{ animationDelay: `${index * 120}ms`, animationDuration: '500ms' }}>
+                                    <div className="flex-shrink-0 mt-1 p-3.5 bg-primary/10 rounded-full transition-transform duration-300 group-hover:scale-110">
+                                      {React.cloneElement(feature.icon, { className: 'h-6 w-6 text-primary transition-transform group-hover:rotate-6' })}
+                                    </div>
                                     <div>
                                         <h3 className="font-semibold text-lg">{feature.title}</h3>
                                         <p className="text-sm text-muted-foreground">{feature.description}</p>
@@ -49,8 +52,10 @@ export function SolutionSection() {
                     <TabsContent value="influencers" className="mt-10 data-[state=active]:animate-fade-in-up" style={{ animationDuration: '600ms' }}>
                         <div className="grid gap-6">
                             {influencerFeatures.map((feature, index) => (
-                                <div key={index} className="flex items-start gap-5 p-5 rounded-xl transition-all duration-300 hover:bg-secondary/60 animate-fade-in-up" style={{ animationDelay: `${index * 120}ms`, animationDuration: '500ms' }}>
-                                    <div className="flex-shrink-0 mt-1 p-3.5 bg-primary/10 rounded-full">{feature.icon}</div>
+                                <div key={index} className="flex items-start gap-5 p-5 rounded-xl transition-all duration-300 hover:bg-secondary/60 animate-fade-in-up group" style={{ animationDelay: `${index * 120}ms`, animationDuration: '500ms' }}>
+                                    <div className="flex-shrink-0 mt-1 p-3.5 bg-primary/10 rounded-full transition-transform duration-300 group-hover:scale-110">
+                                      {React.cloneElement(feature.icon, { className: 'h-6 w-6 text-primary transition-transform group-hover:rotate-6' })}
+                                    </div>
                                     <div>
                                         <h3 className="font-semibold text-lg">{feature.title}</h3>
                                         <p className="text-sm text-muted-foreground">{feature.description}</p>

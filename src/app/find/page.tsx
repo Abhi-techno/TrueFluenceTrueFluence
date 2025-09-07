@@ -10,7 +10,7 @@ export default function FindPage() {
     <div className="bg-background text-foreground min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="space-y-8">
-          <div className="text-center">
+          <div className="text-center animate-fade-in-down">
             <h1 className="text-3xl font-bold tracking-tighter">
               Find Influencers
             </h1>
@@ -18,7 +18,7 @@ export default function FindPage() {
               Discover the perfect match for your brand.
             </p>
           </div>
-          <Card className="bg-secondary/30 border-secondary">
+          <Card className="bg-secondary/30 border-secondary animate-fade-in-up">
             <CardHeader>
               <CardTitle>Search Criteria</CardTitle>
             </CardHeader>
@@ -31,7 +31,8 @@ export default function FindPage() {
                     className="pl-10"
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full group">
+                  <Search className="mr-2 transition-transform group-hover:scale-125" />
                   Find Influencers
                 </Button>
               </form>

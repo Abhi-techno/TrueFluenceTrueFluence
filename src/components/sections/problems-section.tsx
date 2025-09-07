@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Bot, IndianRupee, EyeOff, ShieldAlert, Users } from "lucide-react";
 
@@ -48,7 +49,9 @@ export function ProblemsSection() {
               style={{ animationDelay: `${index * 100}ms` }}
               >
               <CardHeader className="p-0 mb-4">
-                <div className="p-3 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors duration-300">{problem.icon}</div>
+                <div className="p-3 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors duration-300">
+                  {React.cloneElement(problem.icon, { className: 'h-8 w-8 text-primary transition-transform group-hover:scale-125' })}
+                </div>
               </CardHeader>
               <CardContent className="p-0">
                 <CardTitle className="text-xl mb-2 text-foreground">{problem.title}</CardTitle>
