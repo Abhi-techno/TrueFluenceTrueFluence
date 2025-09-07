@@ -1,8 +1,10 @@
 'use client';
 
 import { create } from 'zustand';
-import { account } from '@/lib/appwrite';
+import { account } from '@/lib/appwrite-client';
 import { Models } from 'appwrite';
+import { logout as serverLogout } from '@/app/auth/actions';
+import { useRouter } from 'next/navigation';
 
 interface AuthState {
   user: Models.User<Models.Preferences> | null;
@@ -25,7 +27,7 @@ export const useAuth = create<AuthState>((set) => ({
     }
   },
   logout: async () => {
-    await account.deleteSession('current');
+    await serverLogout();
     set({ user: null });
   },
 }));
