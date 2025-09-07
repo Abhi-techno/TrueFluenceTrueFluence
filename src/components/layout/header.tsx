@@ -17,6 +17,7 @@ const Header = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -31,45 +32,46 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50" : ""
+        "sticky top-0 z-50 w-full transition-all duration-300 bg-background/80 backdrop-blur-xl",
+        isScrolled ? "border-b border-border/50" : ""
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-2 md:flex-1">
-          <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </div>
-
-        <div className="flex justify-center md:flex-1">
+        <div className="flex items-center gap-2 lg:flex-1">
             <Link href="/" className="z-50" onClick={() => setIsMenuOpen(false)}>
                 <Logo />
             </Link>
         </div>
-        
-        <nav className="hidden md:flex items-center gap-6">
+
+        <nav className="hidden lg:flex items-center justify-center gap-2">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="px-4 py-2 rounded-full text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-secondary"
             >
               {link.label}
             </Link>
           ))}
         </nav>
-
-        <div className="flex items-center justify-end gap-2 md:flex-1">
+        
+        <div className="flex items-center justify-end gap-2 lg:flex-1">
+          <div className="hidden md:flex items-center gap-2">
+            <Button variant="ghost">Log In</Button>
+            <Button>Sign Up</Button>
+          </div>
           <ThemeSwitcher />
+           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden">
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <span className="sr-only">Toggle menu</span>
+          </Button>
         </div>
 
       </div>
 
       {isMenuOpen && (
         <div 
-          className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 absolute top-full left-0 w-full z-40 animate-fade-in-down"
+          className="lg:hidden bg-background/95 backdrop-blur-xl border-t border-border/50 absolute top-full left-0 w-full z-40 animate-fade-in-down"
           style={{animationDuration: '0.3s'}}
         >
           <nav className="flex flex-col gap-4 p-6">
@@ -83,7 +85,7 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
-            <div className="flex flex-col gap-4 pt-6 mt-4 border-t border-border/50">
+            <div className="flex flex-col gap-4 pt-6 mt-4 border-t border-border/50 md:hidden">
                 <Button variant="outline" size="lg" className="w-full text-lg">Log In</Button>
                 <Button size="lg" className="w-full text-lg">Sign Up</Button>
             </div>
