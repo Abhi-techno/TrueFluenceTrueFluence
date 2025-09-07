@@ -4,18 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import Logo from '@/components/logo';
 import { Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
-import { useSidebar } from '@/hooks/use-sidebar';
-import { cn } from '@/lib/utils';
 
 const Footer = () => {
-  const { isExpanded } = useSidebar();
-  
   return (
-    <footer className={cn(
-        "bg-secondary/20 border-t border-border/50",
-        isExpanded ? 'lg:ml-64' : 'lg:ml-20',
-        'transition-[margin-left] duration-300 ease-in-out'
-      )}>
+    <footer className="bg-secondary/20 border-t border-border/50">
       <div className="container mx-auto px-4 py-12 md:px-6">
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-4 flex flex-col gap-4">

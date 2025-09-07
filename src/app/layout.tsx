@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import Sidebar from '@/components/layout/sidebar';
+import BottomNavbar from '@/components/layout/bottom-navbar';
 
 export const metadata: Metadata = {
   title: "TrueFluence – Authentic Influence. Real Impact.",
@@ -32,13 +32,13 @@ export default function RootLayout({
             disableTransitionOnChange
           >
           <div className="flex min-h-screen">
-            <Sidebar />
             <div className="flex-1 flex flex-col">
               <Header />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 pb-20">{children}</main>
               <Footer />
             </div>
           </div>
+          <BottomNavbar />
           <Toaster />
         </ThemeProvider>
       </body>
