@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 
@@ -36,9 +36,18 @@ const Header = () => {
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="z-50" onClick={() => setIsMenuOpen(false)}>
-          <Logo />
-        </Link>
+        <div className="flex items-center gap-2 md:flex-1">
+          <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <span className="sr-only">Toggle menu</span>
+          </Button>
+        </div>
+
+        <div className="flex justify-center md:flex-1">
+            <Link href="/" className="z-50" onClick={() => setIsMenuOpen(false)}>
+                <Logo />
+            </Link>
+        </div>
         
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
@@ -52,23 +61,14 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2 z-50">
+        <div className="flex items-center justify-end gap-2 md:flex-1">
+          <Button variant="ghost" size="icon">
+              <Search className="h-5 w-5" />
+              <span className="sr-only">Search</span>
+          </Button>
           <ThemeSwitcher />
-          <Button variant="ghost" asChild>
-            <Link href="#">Log In</Link>
-          </Button>
-          <Button asChild>
-            <Link href="#">Sign Up</Link>
-          </Button>
         </div>
 
-        <div className="md:hidden flex items-center gap-2 z-50">
-          <ThemeSwitcher />
-          <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </div>
       </div>
 
       {isMenuOpen && (
