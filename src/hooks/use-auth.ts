@@ -1,10 +1,9 @@
 'use client';
 
 import { create } from 'zustand';
-import { account } from '@/lib/appwrite-client';
+import { getAppwriteClient } from '@/lib/appwrite';
 import { Models } from 'appwrite';
 import { logout as serverLogout } from '@/app/auth/actions';
-import { useRouter } from 'next/navigation';
 
 interface AuthState {
   user: Models.User<Models.Preferences> | null;
@@ -18,6 +17,11 @@ export const useAuth = create<AuthState>((set) => ({
   isLoading: true,
   checkUser: async () => {
     try {
+      const account = getAppwriteClient();
+      if (!account) {
+          set({ user: null, isLoading: false });
+          return;
+      }
       const user = await account.get();
       set({ user });
     } catch (error) {
